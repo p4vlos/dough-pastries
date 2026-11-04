@@ -2,75 +2,328 @@
   "occasions": [
     {
       "id": "birthday",
-      "name": { "en": "Birthdays", "el": "Γενέθλια" },
-      "label": { "en": "Birthday cake", "el": "Τούρτα γενεθλίων" },
-      "blurb": { "en": "Pick a flavour and a size, from 10 to 30 pieces.", "el": "Διαλέξτε γεύση και μέγεθος, από 10 έως 30 κομμάτια." },
+      "name": {
+        "en": "Birthdays",
+        "el": "Γενέθλια"
+      },
+      "label": {
+        "en": "Birthday cake",
+        "el": "Τούρτα γενεθλίων"
+      },
+      "blurb": {
+        "en": "Pick a flavour and a size, from 10 to 30 pieces.",
+        "el": "Διαλέξτε γεύση και μέγεθος, από 10 έως 30 κομμάτια."
+      },
       "mode": "cake"
     },
     {
       "id": "name-day",
-      "name": { "en": "Name days", "el": "Ονομαστικές γιορτές" },
-      "label": { "en": "Name day sweets", "el": "Γλυκά για ονομαστική γιορτή" },
-      "blurb": { "en": "Trays of sweets to welcome everyone who drops by.", "el": "Δίσκοι με γλυκά για όλους όσοι θα περάσουν να σας ευχηθούν." },
+      "name": {
+        "en": "Name days",
+        "el": "Ονομαστικές γιορτές"
+      },
+      "label": {
+        "en": "Name day sweets",
+        "el": "Γλυκά για ονομαστική γιορτή"
+      },
+      "blurb": {
+        "en": "Sweets to welcome everyone who drops by.",
+        "el": "Γλυκά για όλους όσοι θα περάσουν να σας ευχηθούν."
+      },
       "mode": "sweets"
     },
     {
       "id": "christening",
-      "name": { "en": "Christenings", "el": "Βαφτίσεις" },
-      "label": { "en": "Christening sweets", "el": "Γλυκά για βάφτιση" },
-      "blurb": { "en": "Individual sweets, made to order for your guest list.", "el": "Ατομικά γλυκά, κατά παραγγελία για τον αριθμό των καλεσμένων σας." },
+      "name": {
+        "en": "Christenings",
+        "el": "Βαφτίσεις"
+      },
+      "label": {
+        "en": "Christening sweets",
+        "el": "Γλυκά για βάφτιση"
+      },
+      "blurb": {
+        "en": "Sweets made to order for your guest list.",
+        "el": "Γλυκά κατά παραγγελία για τους καλεσμένους σας."
+      },
       "mode": "sweets"
     },
     {
       "id": "wedding",
-      "name": { "en": "Weddings", "el": "Γάμοι" },
-      "label": { "en": "Wedding sweets", "el": "Γλυκά για γάμο" },
-      "blurb": { "en": "Brownies, doukissa, cupcakes and more for the big day.", "el": "Brownies, δούκισσα, cupcakes και άλλα γλυκά για τη μεγάλη μέρα." },
+      "name": {
+        "en": "Weddings",
+        "el": "Γάμοι"
+      },
+      "label": {
+        "en": "Wedding sweets",
+        "el": "Γλυκά για γάμο"
+      },
+      "blurb": {
+        "en": "Brownies, doukissa, cupcakes and more for the big day.",
+        "el": "Brownies, δούκισσα, cupcakes και άλλα γλυκά για τη μεγάλη μέρα."
+      },
       "mode": "sweets"
     },
     {
       "id": "coffee-break",
-      "name": { "en": "Coffee breaks", "el": "Coffee breaks" },
-      "label": { "en": "Coffee break & snacks", "el": "Coffee break & σνακ" },
-      "blurb": { "en": "Coffee and snacks, sorted for the whole group.", "el": "Καφές και σνακ για όλη την παρέα." },
+      "name": {
+        "en": "Coffee breaks",
+        "el": "Coffee breaks"
+      },
+      "label": {
+        "en": "Coffee break & snacks",
+        "el": "Coffee break & σνακ"
+      },
+      "blurb": {
+        "en": "Coffee and snacks, sorted for the whole group.",
+        "el": "Καφές και σνακ για όλη την παρέα."
+      },
       "mode": "people"
     }
   ],
-  "other": { "id": "other", "label": { "en": "Something else", "el": "Κάτι άλλο" }, "mode": "other" },
+  "other": {
+    "id": "other",
+    "label": {
+      "en": "Something else",
+      "el": "Κάτι άλλο"
+    },
+    "mode": "other"
+  },
   "cakeFlavours": [
-    { "id": "chocolate-praline", "name": { "en": "Chocolate Praline", "el": "Σοκολάτα πραλίνα" }, "sponge": "#4a2414", "filling": "#b9814a", "top": "#2c140a" },
-    { "id": "vanilla-red-fruit", "name": { "en": "Vanilla Cake with Red Fruit Jam", "el": "Βανίλια με μαρμελάδα κόκκινων φρούτων" }, "sponge": "#f4dca0", "filling": "#b3203a", "top": "#fff6e2" },
-    { "id": "vanilla-lemon", "name": { "en": "Vanilla Cake with Lemon Cream", "el": "Βανίλια με κρέμα λεμονιού" }, "sponge": "#f4dca0", "filling": "#f6d743", "top": "#fff6e2" },
-    { "id": "red-velvet", "name": { "en": "Red Velvet Cake", "el": "Red Velvet" }, "sponge": "#9c1c28", "filling": "#fff3e2", "top": "#fff3e2" },
-    { "id": "carrot", "name": { "en": "Carrot Cake", "el": "Κέικ καρότου" }, "sponge": "#c9762d", "filling": "#fff1d6", "top": "#fff1d6" },
-    { "id": "white-doukissa", "name": { "en": "White Doukissa", "el": "Λευκή δούκισσα" }, "sponge": "#f5ecd9", "filling": "#d8b98a", "top": "#fffaf0" },
-    { "id": "dark-doukissa", "name": { "en": "Dark Doukissa", "el": "Μαύρη δούκισσα" }, "sponge": "#3b2014", "filling": "#6b4226", "top": "#241108" },
-    { "id": "chocolate-ganache", "name": { "en": "Chocolate Ganache", "el": "Γκανάς σοκολάτας" }, "sponge": "#54291a", "filling": "#2c140a", "top": "#1e0d05" }
+    {
+      "id": "chocolate-praline",
+      "name": {
+        "en": "Chocolate Praline",
+        "el": "Σοκολάτα πραλίνα"
+      },
+      "sponge": "#4a2414",
+      "filling": "#b9814a",
+      "top": "#2c140a"
+    },
+    {
+      "id": "vanilla-red-fruit",
+      "name": {
+        "en": "Vanilla Cake with Red Fruit Jam",
+        "el": "Βανίλια με μαρμελάδα κόκκινων φρούτων"
+      },
+      "sponge": "#f4dca0",
+      "filling": "#b3203a",
+      "top": "#fff6e2"
+    },
+    {
+      "id": "vanilla-lemon",
+      "name": {
+        "en": "Vanilla Cake with Lemon Cream",
+        "el": "Βανίλια με κρέμα λεμονιού"
+      },
+      "sponge": "#f4dca0",
+      "filling": "#f6d743",
+      "top": "#fff6e2"
+    },
+    {
+      "id": "red-velvet",
+      "name": {
+        "en": "Red Velvet Cake",
+        "el": "Red Velvet"
+      },
+      "sponge": "#9c1c28",
+      "filling": "#fff3e2",
+      "top": "#fff3e2"
+    },
+    {
+      "id": "carrot",
+      "name": {
+        "en": "Carrot Cake",
+        "el": "Κέικ καρότου"
+      },
+      "sponge": "#c9762d",
+      "filling": "#fff1d6",
+      "top": "#fff1d6"
+    },
+    {
+      "id": "white-doukissa",
+      "name": {
+        "en": "White Doukissa",
+        "el": "Λευκή δούκισσα"
+      },
+      "sponge": "#f5ecd9",
+      "filling": "#d8b98a",
+      "top": "#fffaf0"
+    },
+    {
+      "id": "dark-doukissa",
+      "name": {
+        "en": "Dark Doukissa",
+        "el": "Μαύρη δούκισσα"
+      },
+      "sponge": "#3b2014",
+      "filling": "#6b4226",
+      "top": "#241108"
+    },
+    {
+      "id": "chocolate-ganache",
+      "name": {
+        "en": "Chocolate Ganache",
+        "el": "Γκανάς σοκολάτας"
+      },
+      "sponge": "#54291a",
+      "filling": "#2c140a",
+      "top": "#1e0d05"
+    }
   ],
   "cakeSizes": [
-    { "id": "10", "pieces": 10, "diameter": 16, "height": 6 },
-    { "id": "15", "pieces": 15, "diameter": 16, "height": 12 },
-    { "id": "25", "pieces": 25, "diameter": 20, "height": 10 },
-    { "id": "30", "pieces": 30, "diameter": 20, "height": 13 }
+    {
+      "id": "10",
+      "pieces": 10,
+      "diameter": 16,
+      "height": 6
+    },
+    {
+      "id": "15",
+      "pieces": 15,
+      "diameter": 16,
+      "height": 12
+    },
+    {
+      "id": "25",
+      "pieces": 25,
+      "diameter": 20,
+      "height": 10
+    },
+    {
+      "id": "30",
+      "pieces": 30,
+      "diameter": 20,
+      "height": 13
+    }
   ],
   "eventFlavours": [
-    { "id": "brownie-cheese", "name": { "en": "Brownies with Cheese", "el": "Brownies με τυρί" }, "colour": "#6b3a1e" },
-    { "id": "brownie-lotus", "name": { "en": "Fudge Brownie with Lotus & Biscoff", "el": "Fudge brownie με Lotus & Biscoff" }, "colour": "#a8662c" },
-    { "id": "brownie-red-velvet", "name": { "en": "Brownies with Red Velvet", "el": "Brownies με Red Velvet" }, "colour": "#9c1c28" },
-    { "id": "doukissa-dark", "name": { "en": "Doukissa with Dark Chocolate", "el": "Δούκισσα με μαύρη σοκολάτα" }, "colour": "#3b2014" },
-    { "id": "doukissa-white", "name": { "en": "Doukissa with White Chocolate, Walnuts & Cranberries", "el": "Δούκισσα με λευκή σοκολάτα, καρύδια & κράνμπερι" }, "colour": "#f5ecd9" },
-    { "id": "almond-flourless", "name": { "en": "Almond Flourless Cake", "el": "Κέικ αμυγδάλου χωρίς αλεύρι" }, "colour": "#d8b98a" },
-    { "id": "event-carrot", "name": { "en": "Carrot Cake", "el": "Κέικ καρότου" }, "colour": "#c9762d" },
-    { "id": "event-white-doukissa", "name": { "en": "White Doukissa", "el": "Λευκή δούκισσα" }, "colour": "#fffaf0" },
-    { "id": "event-dark-doukissa", "name": { "en": "Dark Doukissa", "el": "Μαύρη δούκισσα" }, "colour": "#241108" },
-    { "id": "event-ganache", "name": { "en": "Chocolate Ganache", "el": "Γκανάς σοκολάτας" }, "colour": "#1e0d05" },
-    { "id": "cupcake-triple", "name": { "en": "Triple Chocolate Cupcakes", "el": "Cupcakes τριπλή σοκολάτα" }, "colour": "#54291a" },
-    { "id": "cupcake-vanilla", "name": { "en": "Vanilla Cupcakes", "el": "Cupcakes βανίλια" }, "colour": "#f4dca0" },
-    { "id": "cupcake-red-velvet", "name": { "en": "Red Velvet & Praline Cupcakes", "el": "Cupcakes Red Velvet & πραλίνα" }, "colour": "#b3203a" }
+    {
+      "id": "brownie-cheese",
+      "name": {
+        "en": "Brownies with Cheese",
+        "el": "Brownies με τυρί"
+      },
+      "colour": "#6b3a1e"
+    },
+    {
+      "id": "brownie-lotus",
+      "name": {
+        "en": "Fudge Brownie with Lotus & Biscoff",
+        "el": "Fudge brownie με Lotus & Biscoff"
+      },
+      "colour": "#a8662c"
+    },
+    {
+      "id": "brownie-red-velvet",
+      "name": {
+        "en": "Brownies with Red Velvet",
+        "el": "Brownies με Red Velvet"
+      },
+      "colour": "#9c1c28"
+    },
+    {
+      "id": "doukissa-dark",
+      "name": {
+        "en": "Doukissa with Dark Chocolate",
+        "el": "Δούκισσα με μαύρη σοκολάτα"
+      },
+      "colour": "#3b2014"
+    },
+    {
+      "id": "doukissa-white",
+      "name": {
+        "en": "Doukissa with White Chocolate, Walnuts & Cranberries",
+        "el": "Δούκισσα με λευκή σοκολάτα, καρύδια & κράνμπερι"
+      },
+      "colour": "#f5ecd9"
+    },
+    {
+      "id": "almond-flourless",
+      "name": {
+        "en": "Almond Flourless Cake",
+        "el": "Κέικ αμυγδάλου χωρίς αλεύρι"
+      },
+      "colour": "#d8b98a"
+    },
+    {
+      "id": "event-carrot",
+      "name": {
+        "en": "Carrot Cake",
+        "el": "Κέικ καρότου"
+      },
+      "colour": "#c9762d"
+    },
+    {
+      "id": "event-white-doukissa",
+      "name": {
+        "en": "White Doukissa",
+        "el": "Λευκή δούκισσα"
+      },
+      "colour": "#fffaf0"
+    },
+    {
+      "id": "event-dark-doukissa",
+      "name": {
+        "en": "Dark Doukissa",
+        "el": "Μαύρη δούκισσα"
+      },
+      "colour": "#241108"
+    },
+    {
+      "id": "event-ganache",
+      "name": {
+        "en": "Chocolate Ganache",
+        "el": "Γκανάς σοκολάτας"
+      },
+      "colour": "#1e0d05"
+    },
+    {
+      "id": "cupcake-triple",
+      "name": {
+        "en": "Triple Chocolate Cupcakes",
+        "el": "Cupcakes τριπλή σοκολάτα"
+      },
+      "colour": "#54291a"
+    },
+    {
+      "id": "cupcake-vanilla",
+      "name": {
+        "en": "Vanilla Cupcakes",
+        "el": "Cupcakes βανίλια"
+      },
+      "colour": "#f4dca0"
+    },
+    {
+      "id": "cupcake-red-velvet",
+      "name": {
+        "en": "Red Velvet & Praline Cupcakes",
+        "el": "Cupcakes Red Velvet & πραλίνα"
+      },
+      "colour": "#b3203a"
+    }
   ],
   "locations": [
-    { "id": "nicosia", "name": { "en": "Nicosia", "el": "Λευκωσία" } },
-    { "id": "larnaca", "name": { "en": "Larnaca", "el": "Λάρνακα" } },
-    { "id": "limassol", "name": { "en": "Limassol", "el": "Λεμεσός" } }
+    {
+      "id": "nicosia",
+      "name": {
+        "en": "Nicosia",
+        "el": "Λευκωσία"
+      }
+    },
+    {
+      "id": "larnaca",
+      "name": {
+        "en": "Larnaca",
+        "el": "Λάρνακα"
+      }
+    },
+    {
+      "id": "limassol",
+      "name": {
+        "en": "Limassol",
+        "el": "Λεμεσός"
+      }
+    }
   ]
 }

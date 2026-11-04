@@ -142,7 +142,7 @@ const en = {
     },
     sweetsEyebrow: 'For your guests',
     sweetsTitle: 'Sweets made to order',
-    sweetsLead: 'Mix and match for name days, christenings and weddings. Tell us your guest count and we will help you plan how many.',
+    sweetsLead: 'Mix and match for name days, christenings and weddings, and tell us in your request how many you need.',
     noscript: 'The request builder needs JavaScript. Please call us on {phone} instead.',
   },
   visit: {
@@ -311,7 +311,7 @@ const el: Strings = {
     },
     sweetsEyebrow: 'Για τους καλεσμένους σας',
     sweetsTitle: 'Γλυκά κατά παραγγελία',
-    sweetsLead: 'Συνδυάστε τα όπως θέλετε για ονομαστικές γιορτές, βαφτίσεις και γάμους. Πείτε μας πόσοι θα είστε και θα σας βοηθήσουμε να υπολογίσετε τις ποσότητες.',
+    sweetsLead: 'Συνδυάστε τα όπως θέλετε για ονομαστικές γιορτές, βαφτίσεις και γάμους και γράψτε μας στο αίτημά σας πόσα χρειάζεστε.',
     noscript: 'Η φόρμα χρειάζεται JavaScript. Παρακαλώ καλέστε μας στο {phone}.',
   },
   visit: {

@@ -1,0 +1,363 @@
+---
+import Icon from '../../components/Icon.astro';
+import MenuItemCard from '../../components/MenuItemCard.astro';
+import MenuRow from '../../components/MenuRow.astro';
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import { languagePaths, loc, type Lang } from '../../lib/i18n';
+import { categories, categoryById, foodCategories } from '../../lib/menu';
+import { ui } from '../../lib/ui';
+
+export const getStaticPaths = languagePaths;
+
+const lang = Astro.props.lang as Lang;
+const t = ui[lang];
+const m = t.menu;
+
+const leftDrinks = ['hot-coffees', 'cold-coffees'].map(categoryById);
+const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
+---
+
+<Base lang={lang} page="menu" title={m.title} description={m.description}>
+  <section class="menu-hero theme-ink">
+    <div class="wrap">
+      <h1 class="menu-hero__title">
+        <span class="script">{m.script}</span>
+        <span class="display display--xl">{m.heading}</span>
+      </h1>
+      <p class="lead">{m.lead}</p>
+    </div>
+  </section>
+
+  <div class="menu-tools theme-ink">
+    <div class="wrap menu-tools__inner">
+      <label class="search">
+        <span class="visually-hidden">{m.searchLabel}</span>
+        <Icon name="search" size={20} />
+        <input type="search" placeholder={m.searchPlaceholder} autocomplete="off" enterkeyhint="search" data-menu-search />
+        <button type="button" class="search__clear" aria-label={m.clear} data-menu-clear hidden>
+          <Icon name="close" size={18} />
+        </button>
+      </label>
+      <nav class="chips" aria-label={m.categoriesLabel} data-menu-chips>
+        {categories.map((category) => <a href={`#${category.id}`}>{loc(category.name, lang)}</a>)}
+      </nav>
+    </div>
+  </div>
+
+  <p class="visually-hidden" role="status" data-menu-count data-one={m.countOne} data-many={m.countMany}></p>
+
+  <section class="drinks theme-chocolate">
+    <div class="wrap drinks__grid">
+      <div class="drinks__left">
+        <h2 class="drinks__title">
+          <span class="script">{m.drinksScript}</span>
+          <span class="display display--lg">{m.drinksTitle}</span>
+        </h2>
+        {
+          leftDrinks.map((category) => (
+            <div class="drink-group" id={category.id} data-menu-section>
+              <h3 class="display display--md drink-group__title">{loc(category.name, lang)}</h3>
+              <ul class="drink-list">
+                {category.items.map((item) => <MenuRow item={item} lang={lang} />)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+      <div class="paddle drinks__right">
+        {
+          rightDrinks.map((category) => (
+            <div class="drink-group" id={category.id} data-menu-section>
+              <h3 class="display display--md drink-group__title drink-group__title--pink">{loc(category.name, lang)}</h3>
+              <ul class="drink-list">
+                {category.items.map((item) => <MenuRow item={item} lang={lang} />)}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  {
+    foodCategories.map((category, index) => {
+      const dark = category.id === 'cookies';
+      const theme = dark ? 'theme-ink' : index % 2 === 0 ? 'theme-paper' : 'theme-cream';
+      return (
+        <section class:list={['food', theme]} id={category.id} data-menu-section>
+          <div class="wrap">
+            <header class="food__head">
+              <h2 class="display display--lg">{loc(category.name, lang)}</h2>
+              {category.note && <p class="food__note">{loc(category.note, lang)}</p>}
+            </header>
+            <ul class:list={['food__grid', { 'food__grid--dark': dark }]}>
+              {category.items.map((item) => <MenuItemCard item={item} lang={lang} dark={dark} />)}
+            </ul>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <div class="menu-empty theme-paper" data-menu-empty hidden>
+    <div class="wrap">
+      <p class="display display--md">{m.none}</p>
+      <a class="btn btn--primary menu-empty__call" href={`tel:${site.phone.e164}`}>
+        <Icon name="phone" size={18} />
+        {site.phone.display}
+      </a>
+    </div>
+  </div>
+
+  <section class="section theme-chocolate order">
+    <div class="wrap order__inner">
+      <div>
+        <h2 class="display display--lg">{m.orderTitle}</h2>
+        <p class="lead">{m.orderText}</p>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn--orange" href={loc(site.links.wolt, lang)} rel="noopener">
+          <Icon name="bag" size={18} />
+          {t.actions.order}
+        </a>
+        <a class="btn btn--ghost" href={`tel:${site.phone.e164}`}>
+          <Icon name="phone" size={18} />
+          {site.phone.display}
+        </a>
+      </div>
+      <p class="order__note">{m.note}</p>
+    </div>
+  </section>
+</Base>
+
+<script src="../../scripts/menu.ts"></script>
+
+<style>
+  .menu-hero {
+    padding-block: clamp(2rem, 6vw, 4rem) 1.25rem;
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .menu-hero__title {
+    display: grid;
+    margin-bottom: 0.75rem;
+    font-weight: 400;
+  }
+  .menu-hero__title .script {
+    margin-bottom: -0.2em;
+    color: var(--butter);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .menu-tools {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 30;
+    padding-block: 0.7rem;
+    background: var(--bg);
+    color: var(--fg);
+    border-bottom: 1px solid var(--line);
+  }
+  .menu-tools__inner {
+    display: grid;
+    gap: 0.6rem;
+  }
+  .search {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.9rem;
+    border: 1.5px solid rgb(255 217 133 / 0.45);
+    border-radius: 999px;
+    background: var(--ink-raised);
+    transition: border-color 0.2s ease;
+  }
+  .search:focus-within {
+    border-color: var(--butter);
+  }
+  .search input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: none;
+  }
+  .search input::-webkit-search-cancel-button {
+    display: none;
+  }
+  .search input::placeholder {
+    color: rgb(255 255 255 / 0.6);
+  }
+  .search__clear {
+    display: grid;
+    place-items: center;
+    padding: 0.1rem;
+    border: 0;
+    border-radius: 50%;
+    background: none;
+    color: var(--butter);
+    cursor: pointer;
+  }
+  .search__clear[hidden] {
+    display: none;
+  }
+  .chips {
+    display: flex;
+    gap: 0.45rem;
+    margin-inline: -1rem;
+    padding: 0.1rem 1rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chips::-webkit-scrollbar {
+    display: none;
+  }
+  .chips a {
+    flex: none;
+    padding: 0.32rem 0.85rem;
+    border: 1px solid rgb(255 217 133 / 0.35);
+    border-radius: 999px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .chips a:hover {
+    border-color: var(--butter);
+  }
+  .chips a[aria-current='true'] {
+    background: var(--butter);
+    border-color: var(--butter);
+    color: var(--ink);
+  }
+  @media (min-width: 900px) {
+    .menu-tools__inner {
+      grid-template-columns: 300px minmax(0, 1fr);
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .chips {
+      margin-inline: 0;
+      padding-inline: 0;
+    }
+  }
+
+  /* The printed coffee menu, redrawn */
+  .drinks {
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 4vw, 3rem);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .drinks__grid {
+    display: grid;
+    gap: 2rem;
+  }
+  .drinks__title {
+    display: grid;
+    margin-bottom: 1.75rem;
+    font-weight: 400;
+  }
+  .drinks__title .script {
+    margin-bottom: -0.15em;
+    font-size: clamp(2.2rem, 5vw, 3.25rem);
+  }
+  .drink-group {
+    scroll-margin-top: calc(var(--header-h) + 130px);
+  }
+  .drink-group + .drink-group {
+    margin-top: 2rem;
+  }
+  .drink-group__title {
+    margin-bottom: 0.6rem;
+    color: var(--pistachio);
+  }
+  .drink-group__title--pink {
+    color: #ff9fc2;
+  }
+  .drink-list {
+    display: grid;
+    gap: 0.15rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .drinks__right {
+    --paddle-colour: var(--caramel);
+    align-self: start;
+    padding-bottom: 3.25rem;
+  }
+  @media (min-width: 900px) {
+    .drinks__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+    .drinks__right {
+      margin-top: -5.5rem;
+    }
+  }
+
+  /* Food */
+  .food {
+    padding-block: clamp(2.5rem, 6vw, 4.5rem);
+    background: var(--bg);
+    color: var(--fg);
+    scroll-margin-top: calc(var(--header-h) + 90px);
+  }
+  .food__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 1.5rem;
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  }
+  .food__note {
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .food__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.6rem, 1.6vw, 1.25rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .food__grid--dark {
+    gap: clamp(1rem, 2.5vw, 2rem) clamp(0.75rem, 2vw, 1.5rem);
+  }
+  @media (min-width: 640px) {
+    .food__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1000px) {
+    .food__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .food__grid--dark {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+  }
+
+  .menu-empty {
+    padding-block: clamp(3rem, 8vw, 6rem);
+    background: var(--bg);
+    color: var(--fg);
+    text-align: center;
+  }
+  .menu-empty__call {
+    margin-top: 1.5rem;
+  }
+
+  .order__inner {
+    display: grid;
+    gap: 1.25rem;
+  }
+  .order__note {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+</style>
