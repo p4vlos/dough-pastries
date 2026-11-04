@@ -32,7 +32,7 @@ Open <http://localhost:4321/dough-pastries/>. `npm test` runs the logic and data
 - **Prices.** Taken from Wolt and their printed coffee menu. In-shop prices may differ.
 - **Delivery areas for cakes.** Nicosia, Larnaca and Limassol are taken from the location field on their current order form.
 - **Photos.** Taken from their Wolt listing at 1200px. There are none of celebration cakes, wedding sweets or the shop itself, so originals would improve the site.
-- **Greek wording.** Should be read by a native speaker before going live.
+- **Greek wording.** Should be read by a native speaker before going live. Three terms need the shop's own word: "Καπύρες" for the olive rusks, "Παστέλι" for peanut brittle, and whether "Brownies με τυρί" means cream cheese.
 
 ## Going live
 

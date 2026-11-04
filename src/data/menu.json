@@ -14,7 +14,7 @@
         { "id": "hot-chocolate", "name": { "en": "Hot Chocolate", "el": "Ζεστή σοκολάτα" }, "price": 3, "image": true },
         { "id": "white-chocolate", "name": { "en": "White Chocolate", "el": "Λευκή σοκολάτα" }, "price": 3 },
         { "id": "sugar-free-chocolate", "name": { "en": "Sugar-Free Chocolate", "el": "Σοκολάτα χωρίς ζάχαρη" }, "price": 3 },
-        { "id": "tea-selection", "name": { "en": "Tea Selection", "el": "Ποικιλία τσαγιού" }, "price": 2.5 }
+        { "id": "tea-selection", "name": { "en": "Tea Selection", "el": "Ποικιλία τσαγιών" }, "price": 2.5 }
       ]
     },
     {
@@ -80,9 +80,9 @@
         { "id": "lotus-cookie", "name": { "en": "Lotus Cookie", "el": "Cookie Lotus" }, "price": 3.5, "image": true },
         { "id": "lemon-meringue-cookie", "name": { "en": "Lemon Meringue Cookie", "el": "Cookie λεμόνι μαρέγκα" }, "price": 3.5, "image": true },
         { "id": "mms-cookie", "name": { "en": "M&M's Cookie", "el": "Cookie M&M's" }, "price": 3.5, "image": true },
-        { "id": "maple-bacon-cookie", "name": { "en": "Maple Caramelised Bacon Cookie", "el": "Cookie μπέικον καραμελωμένο με σφενδάμι" }, "desc": { "en": "With dark chocolate chunks", "el": "Με κομμάτια μαύρης σοκολάτας" }, "price": 3.5, "image": true },
-        { "id": "candied-walnut-cookie", "name": { "en": "Candied Walnut & Milk Chocolate Cookie", "el": "Cookie καραμελωμένο καρύδι & σοκολάτα γάλακτος" }, "desc": { "en": "American soft cookie", "el": "Αμερικάνικο μαλακό cookie" }, "price": 3, "image": true },
-        { "id": "tiramisu-cookie", "name": { "en": "Tiramisu Soft Cookie", "el": "Μαλακό cookie τιραμισού" }, "desc": { "en": "Soft and chewy with rich coffee flavour, milk chocolate chunks, a smooth tiramisu topping and cocoa.", "el": "Μαλακό και αφράτο, με έντονη γεύση καφέ, κομμάτια σοκολάτας γάλακτος, βελούδινη κρέμα τιραμισού και κακάο." }, "price": 4, "image": true }
+        { "id": "maple-bacon-cookie", "name": { "en": "Maple Caramelised Bacon Cookie", "el": "Cookie μπέικον καραμελωμένο με σιρόπι σφενδάμου" }, "desc": { "en": "With dark chocolate chunks", "el": "Με κομμάτια μαύρης σοκολάτας" }, "price": 3.5, "image": true },
+        { "id": "candied-walnut-cookie", "name": { "en": "Candied Walnut & Milk Chocolate Cookie", "el": "Cookie καραμελωμένο καρύδι & σοκολάτα γάλακτος" }, "desc": { "en": "American soft cookie", "el": "Μαλακό αμερικάνικο cookie" }, "price": 3, "image": true },
+        { "id": "tiramisu-cookie", "name": { "en": "Tiramisu Soft Cookie", "el": "Μαλακό cookie τιραμισού" }, "desc": { "en": "Soft and chewy with rich coffee flavour, milk chocolate chunks, a smooth tiramisu topping and cocoa.", "el": "Μαλακό και μαστιχωτό, με έντονη γεύση καφέ, κομμάτια σοκολάτας γάλακτος, βελούδινη κρέμα τιραμισού και κακάο." }, "price": 4, "image": true }
       ]
     },
     {
@@ -90,8 +90,8 @@
       "layout": "cards",
       "name": { "en": "Individual sweets", "el": "Ατομικά γλυκά" },
       "items": [
-        { "id": "scoopable-cookie-dough", "name": { "en": "Scoopable Cookie Dough", "el": "Cookie dough στο κουτάλι" }, "desc": { "en": "Scoopable cookie dough with gianduja. Ice cream not included.", "el": "Cookie dough για το κουτάλι με gianduja. Το παγωτό δεν περιλαμβάνεται." }, "price": 5.5, "image": true, "popular": true },
-        { "id": "choco-brownie-caramel", "name": { "en": "Choco Brownie with Caramel & Peanuts", "el": "Brownie σοκολάτας με καραμέλα & φυστίκια" }, "desc": { "en": "Chocolate brownie pieces with caramel sauce and peanuts.", "el": "Κομμάτια brownie σοκολάτας με σάλτσα καραμέλας και φυστίκια." }, "price": 5.5, "image": true },
+        { "id": "scoopable-cookie-dough", "name": { "en": "Scoopable Cookie Dough", "el": "Cookie dough του κουταλιού" }, "desc": { "en": "Scoopable cookie dough with gianduja. Ice cream not included.", "el": "Cookie dough του κουταλιού με gianduja. Το παγωτό δεν περιλαμβάνεται." }, "price": 5.5, "image": true, "popular": true },
+        { "id": "choco-brownie-caramel", "name": { "en": "Choco Brownie with Caramel & Peanuts", "el": "Brownie σοκολάτας με καραμέλα & αράπικα φυστίκια" }, "desc": { "en": "Chocolate brownie pieces with caramel sauce and peanuts.", "el": "Κομμάτια brownie σοκολάτας με σάλτσα καραμέλας και αράπικα φυστίκια." }, "price": 5.5, "image": true },
         { "id": "pistachio-cheesecake", "name": { "en": "Pistachio Cheesecake", "el": "Cheesecake φιστίκι" }, "price": 4, "image": true },
         { "id": "biscoff-cheesecake", "name": { "en": "Biscoff Cheesecake", "el": "Cheesecake Biscoff" }, "price": 4, "image": true }
       ]
@@ -108,7 +108,7 @@
         { "id": "marble-brownie", "name": { "en": "Marble Brownie", "el": "Brownie μαρμπρέ" }, "size": "90g", "price": 2.5, "image": true },
         { "id": "oreo-brownie", "name": { "en": "Oreo Brownie", "el": "Brownie Oreo" }, "size": "90g", "price": 2.5, "image": true },
         { "id": "lotus-brownie", "name": { "en": "Lotus Brownie", "el": "Brownie Lotus" }, "size": "90g", "price": 2.5, "image": true },
-        { "id": "chocolate-doukissa", "name": { "en": "Chocolate Doukissa", "el": "Δούκισσα σοκολάτα" }, "size": "100g", "price": 3, "image": true }
+        { "id": "chocolate-doukissa", "name": { "en": "Chocolate Doukissa", "el": "Δούκισσα σοκολάτας" }, "size": "100g", "price": 3, "image": true }
       ]
     },
     {
@@ -136,11 +136,11 @@
       "layout": "cards",
       "name": { "en": "Savoury", "el": "Αλμυρά" },
       "items": [
-        { "id": "blt", "name": { "en": "BLT" }, "desc": { "en": "An all-time classic with a twist: crispy bacon, lettuce, breaded fried tomato and a refreshing lemon-zest mayo.", "el": "Το απόλυτο κλασικό με μια ανατροπή: τραγανό μπέικον, μαρούλι, πανέ τηγανητή ντομάτα και δροσερή μαγιονέζα με ξύσμα λεμονιού." }, "price": 7.5, "image": true, "popular": true },
-        { "id": "the-italian", "name": { "en": "The Italian" }, "desc": { "en": "Dijon and wholegrain mustard spread, layers of salami, mortadella and smoked cheese, arugula and fresh tomato.", "el": "Άλειμμα μουστάρδας Dijon και ολικής, στρώσεις σαλάμι, μορταδέλα και καπνιστό τυρί, ρόκα και φρέσκια ντομάτα." }, "price": 7.5, "image": true },
+        { "id": "blt", "name": { "en": "BLT" }, "desc": { "en": "An all-time classic with a twist: crispy bacon, lettuce, breaded fried tomato and a refreshing lemon-zest mayo.", "el": "Το διαχρονικό κλασικό με τη δική μας πινελιά: τραγανό μπέικον, μαρούλι, τηγανητή ντομάτα πανέ και δροσερή μαγιονέζα με ξύσμα λεμονιού." }, "price": 7.5, "image": true, "popular": true },
+        { "id": "the-italian", "name": { "en": "The Italian" }, "desc": { "en": "Dijon and wholegrain mustard spread, layers of salami, mortadella and smoked cheese, arugula and fresh tomato.", "el": "Άλειμμα μουστάρδας Dijon και μουστάρδας με σπόρους, στρώσεις από σαλάμι, μορταδέλα και καπνιστό τυρί, ρόκα και φρέσκια ντομάτα." }, "price": 7.5, "image": true },
         { "id": "chicken-pesto", "name": { "en": "Chicken Pesto", "el": "Κοτόπουλο πέστο" }, "desc": { "en": "Grilled chicken fillet with pesto, arugula and sundried tomatoes in a brown baguette.", "el": "Φιλέτο κοτόπουλο σχάρας με πέστο, ρόκα και λιαστή ντομάτα σε μαύρη μπαγκέτα." }, "price": 7.5, "image": true },
-        { "id": "egg-and-mayo", "name": { "en": "Egg & Mayo", "el": "Αυγό & μαγιονέζα" }, "desc": { "en": "Soft brioche bagel with egg, mayonnaise, wholegrain mustard and a refreshing touch of arugula.", "el": "Αφράτο bagel μπριός με αυγό, μαγιονέζα, μουστάρδα ολικής και μια δροσερή νότα ρόκας." }, "price": 7.5, "image": true },
-        { "id": "triangle-tuna", "name": { "en": "Triangle Tuna", "el": "Τρίγωνο τόνου" }, "desc": { "en": "Tuna, mayonnaise, sweet corn, spring onion and fresh lettuce on wholegrain sliced bread.", "el": "Τόνος, μαγιονέζα, καλαμπόκι, φρέσκο κρεμμυδάκι και μαρούλι σε ψωμί ολικής." }, "price": 6, "image": true },
+        { "id": "egg-and-mayo", "name": { "en": "Egg & Mayo", "el": "Αυγό & μαγιονέζα" }, "desc": { "en": "Soft brioche bagel with egg, mayonnaise, wholegrain mustard and a refreshing touch of arugula.", "el": "Αφράτο bagel μπριός με αυγό, μαγιονέζα, μουστάρδα με σπόρους και λίγη δροσερή ρόκα." }, "price": 7.5, "image": true },
+        { "id": "triangle-tuna", "name": { "en": "Triangle Tuna", "el": "Τρίγωνο με τόνο" }, "desc": { "en": "Tuna, mayonnaise, sweet corn, spring onion and fresh lettuce on wholegrain sliced bread.", "el": "Τόνος, μαγιονέζα, καλαμπόκι, φρέσκο κρεμμυδάκι και μαρούλι σε ψωμί ολικής." }, "price": 6, "image": true },
         { "id": "olive-kapires", "name": { "en": "Olive Kapires (Rusks)", "el": "Καπύρες ελιάς (παξιμάδια)" }, "price": 3, "image": true }
       ]
     },
@@ -154,7 +154,7 @@
         { "id": "granola-bar-red-fruit", "name": { "en": "Red Fruit & Coconut Granola Bar", "el": "Μπάρα granola κόκκινα φρούτα & καρύδα" }, "desc": { "en": "Vegan", "el": "Vegan" }, "price": 1.8, "image": true },
         { "id": "chia-protein-bar", "name": { "en": "Chia Seed Protein Bar", "el": "Μπάρα πρωτεΐνης με chia" }, "price": 4.5, "image": true },
         { "id": "oreo-protein-bar", "name": { "en": "Oreo Protein Bar", "el": "Μπάρα πρωτεΐνης Oreo" }, "price": 4.5, "image": true },
-        { "id": "peanut-brittle", "name": { "en": "Peanut Brittle", "el": "Παστέλι φυστικιού" }, "price": 1.5, "image": true },
+        { "id": "peanut-brittle", "name": { "en": "Peanut Brittle", "el": "Παστέλι με αράπικα φυστίκια" }, "price": 1.5, "image": true },
         { "id": "mini-biscuits-cranberry", "name": { "en": "Mini Butter Biscuits, Cranberry & White Chocolate", "el": "Μίνι μπισκότα βουτύρου, κράνμπερι & λευκή σοκολάτα" }, "size": "100g", "price": 2.5, "image": true },
         { "id": "mini-biscuits-praline", "name": { "en": "Mini Butter Biscuits, Praline", "el": "Μίνι μπισκότα βουτύρου, πραλίνα" }, "price": 2.5, "image": true },
         { "id": "mini-biscuits-vanilla", "name": { "en": "Mini Butter Biscuits, Vanilla", "el": "Μίνι μπισκότα βουτύρου, βανίλια" }, "price": 2.5, "image": true },
