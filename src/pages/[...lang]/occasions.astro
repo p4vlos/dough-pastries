@@ -1,0 +1,175 @@
+---
+import Icon from '../../components/Icon.astro';
+import RequestBuilder from '../../components/RequestBuilder.astro';
+import data from '../../data/occasions.json';
+import Base from '../../layouts/Base.astro';
+import { languagePaths, loc, pageUrl, type Lang } from '../../lib/i18n';
+import { ui } from '../../lib/ui';
+
+export const getStaticPaths = languagePaths;
+
+const lang = Astro.props.lang as Lang;
+const o = ui[lang].occasions;
+---
+
+<Base lang={lang} page="occasions" title={o.title} description={o.description}>
+  <section class="occasions-hero theme-chocolate">
+    <div class="wrap">
+      <h1 class="occasions-hero__title">
+        <span class="script">{o.script}</span>
+        <span class="display display--xl">{o.heading}</span>
+      </h1>
+      <p class="lead">{o.lead}</p>
+
+      <ul class="occasion-list">
+        {
+          data.occasions.map((occasion) => (
+            <li>
+              <a href={pageUrl('occasions', lang, '#builder')} data-pick-occasion={occasion.id}>
+                <span class="display display--md occasion-list__name">{loc(occasion.name, lang)}</span>
+                <span class="occasion-list__blurb">{loc(occasion.blurb, lang)}</span>
+                <Icon name="arrow" size={24} class="occasion-list__arrow" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-cream dome-top" id="builder">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{o.builderEyebrow}</p>
+        <h2 class="display display--lg">{o.builderTitle}</h2>
+        <p class="lead builder-lead">{o.builderLead}</p>
+      </div>
+      <RequestBuilder lang={lang} />
+    </div>
+  </section>
+
+  <section class="section theme-ink sweets">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{o.sweetsEyebrow}</p>
+        <h2 class="display display--lg">{o.sweetsTitle}</h2>
+        <p class="lead builder-lead">{o.sweetsLead}</p>
+      </div>
+      <ul class="sweet-list">
+        {
+          data.eventFlavours.map((flavour) => (
+            <li class="reveal">
+              <span class="sweet-list__dot" style={`background:${flavour.colour}`}></span>
+              {loc(flavour.name, lang)}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .occasions-hero {
+    padding-block: clamp(2rem, 6vw, 4rem) calc(var(--dome) + clamp(2.5rem, 6vw, 4rem));
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .occasions-hero__title {
+    display: grid;
+    margin-bottom: 0.75rem;
+    font-weight: 400;
+  }
+  .occasions-hero__title .script {
+    margin-bottom: -0.15em;
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+  .occasion-list {
+    margin: clamp(1.75rem, 4vw, 3rem) 0 0;
+    padding: 0;
+    border-top: 3px solid var(--orange);
+    list-style: none;
+  }
+  .occasion-list li {
+    border-bottom: 3px solid var(--orange);
+  }
+  .occasion-list a {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.1rem 1rem;
+    padding: 0.9rem 0.5rem;
+    color: #fff;
+    text-decoration: none;
+    transition: background 0.2s ease, padding 0.2s ease, color 0.2s ease;
+  }
+  .occasion-list__name {
+    color: var(--pistachio);
+    transition: color 0.2s ease;
+  }
+  .occasion-list__blurb {
+    grid-column: 1;
+    color: var(--muted);
+    transition: color 0.2s ease;
+  }
+  .occasion-list a :global(.occasion-list__arrow) {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    color: var(--butter);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .occasion-list a:hover {
+    background: var(--butter);
+    color: var(--ink);
+    padding-inline: 1rem;
+  }
+  .occasion-list a:hover .occasion-list__name,
+  .occasion-list a:hover .occasion-list__blurb,
+  .occasion-list a:hover :global(.occasion-list__arrow) {
+    color: var(--ink);
+  }
+  .occasion-list a:hover :global(.occasion-list__arrow) {
+    transform: translateX(6px);
+  }
+  @media (min-width: 760px) {
+    .occasion-list a {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr) auto;
+    }
+    .occasion-list__blurb {
+      grid-column: 2;
+    }
+    .occasion-list a :global(.occasion-list__arrow) {
+      grid-row: auto;
+      grid-column: 3;
+    }
+  }
+
+  .builder-lead {
+    margin-top: 0.9rem;
+  }
+
+  .sweet-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+    gap: 0.75rem clamp(1rem, 3vw, 2.5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .sweet-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding-block: 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .sweet-list__dot {
+    flex: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid var(--butter);
+    border-radius: 50%;
+  }
+</style>
