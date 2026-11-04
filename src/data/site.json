@@ -1,0 +1,36 @@
+{
+  "name": "Dough Pastries",
+  "tagline": "Life is what you bake it!",
+  "address": {
+    "street": { "en": "Kyriakou Matsi 57G", "el": "Κυριάκου Μάτση 57Γ" },
+    "area": { "en": "Strovolos", "el": "Στρόβολος" },
+    "postcode": "2060",
+    "city": { "en": "Nicosia", "el": "Λευκωσία" },
+    "country": { "en": "Cyprus", "el": "Κύπρος" }
+  },
+  "geo": { "lat": 35.1449031, "lng": 33.3351257 },
+  "phone": { "display": "+357 96 663158", "e164": "+35796663158" },
+  "email": "f4efoodandmore@gmail.com",
+  "links": {
+    "wolt": {
+      "en": "https://wolt.com/en/cyp/nicosia/restaurant/dough-pastries",
+      "el": "https://wolt.com/el/cyp/nicosia/restaurant/dough-pastries"
+    },
+    "maps": "https://maps.app.goo.gl/Z7wetN5e8xRUHGWg7",
+    "directions": "https://www.google.com/maps/dir/?api=1&destination=35.1449031,33.3351257",
+    "facebook": "https://www.facebook.com/doughpastries",
+    "instagram": "https://www.instagram.com/dough_pastries/",
+    "official": "https://doughpastries.cy/"
+  },
+  "woltScore": "9.2",
+  "timezone": "Asia/Nicosia",
+  "hours": {
+    "0": null,
+    "1": { "open": "08:30", "close": "17:00" },
+    "2": { "open": "08:30", "close": "17:00" },
+    "3": { "open": "08:30", "close": "17:00" },
+    "4": { "open": "08:30", "close": "17:00" },
+    "5": { "open": "08:30", "close": "17:00" },
+    "6": { "open": "09:30", "close": "13:30" }
+  }
+}
