@@ -1,0 +1,26 @@
+{
+  "name": "dough-pastries",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Concept website for Dough Pastries, a handmade pastry shop and cafe in Strovolos, Nicosia.",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "node --test tests/"
+  },
+  "dependencies": {
+    "@fontsource-variable/manrope": "^5.3.0",
+    "@fontsource-variable/quicksand": "^5.3.0",
+    "@fontsource-variable/sofia-sans-extra-condensed": "^5.3.0",
+    "@fontsource/mynerve": "^5.3.0",
+    "@fontsource/pacifico": "^5.3.0",
+    "astro": "^6.4.8",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "potrace": "^2.1.8",
+    "qrcode": "^1.5.4"
+  }
+}
