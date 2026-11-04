@@ -1,0 +1,85 @@
+---
+import paths from '../data/logo.json';
+
+interface Props {
+  tagline?: boolean;
+  draw?: boolean;
+  label?: string;
+  class?: string;
+}
+
+const { tagline = false, draw = false, label = 'Dough Pastries', class: className } = Astro.props;
+
+// Redrawn by hand over their logo so it can animate as a single line.
+const HANDLE =
+  'M256 412C241 425 231 430 214 430C200 430 190 428 178 424C155 418 135 410 112 402C104 399.5 98 399 94 399C68 399 50 420 50 445C50 470 68 491 94 491C100 491 104 490 112 487C135 479 155 471 178 465C190 462 205 460 216 460C232 460 241 465 256 478';
+---
+
+<svg
+  class:list={['logo', className, { 'logo--draw': draw }]}
+  viewBox={tagline ? '30 52 1160 780' : '30 52 1160 716'}
+  role="img"
+  aria-label={label}
+>
+  <g class="logo__pin" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path pathLength="1" d="M335 362A274.5 289 0 0 1 884 362" />
+    <path pathLength="1" d="M708 227.5H755" />
+    <rect pathLength="1" x="262" y="363" width="695" height="161" rx="25" />
+    <path pathLength="1" d={HANDLE} />
+    <path pathLength="1" d={HANDLE} transform="matrix(-1 0 0 1 1219 0)" />
+  </g>
+  <g class="logo__word" transform="translate(0 560)" fill-rule="evenodd">
+    <path d={paths.word} />
+    {tagline && <path d={paths.tag} />}
+  </g>
+</svg>
+
+<style>
+  .logo {
+    display: block;
+    width: auto;
+    height: 100%;
+    overflow: visible;
+  }
+  .logo__pin {
+    stroke: var(--logo-pin, var(--butter));
+  }
+  .logo__word {
+    fill: var(--logo-word, #fff);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .logo--draw .logo__pin > * {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: logo-draw 1.5s cubic-bezier(0.6, 0, 0.2, 1) forwards;
+    }
+    .logo--draw .logo__pin > :nth-child(3) {
+      animation-delay: 0.3s;
+    }
+    .logo--draw .logo__pin > :nth-child(4),
+    .logo--draw .logo__pin > :nth-child(5) {
+      animation-delay: 0.7s;
+      animation-duration: 0.9s;
+    }
+    .logo--draw .logo__pin > :nth-child(2) {
+      animation-delay: 1.2s;
+      animation-duration: 0.4s;
+    }
+    .logo--draw .logo__word {
+      opacity: 0;
+      animation: logo-fade 0.7s ease 1.1s forwards;
+    }
+  }
+
+  @keyframes logo-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes logo-fade {
+    to {
+      opacity: 1;
+    }
+  }
+</style>

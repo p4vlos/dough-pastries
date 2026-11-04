@@ -1,0 +1,199 @@
+---
+import HoursTable from '../../components/HoursTable.astro';
+import Icon from '../../components/Icon.astro';
+import OpenStatus from '../../components/OpenStatus.astro';
+import PinRule from '../../components/PinRule.astro';
+import StreetMap from '../../components/StreetMap.astro';
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import { languagePaths, loc, type Lang } from '../../lib/i18n';
+import { ui } from '../../lib/ui';
+
+export const getStaticPaths = languagePaths;
+
+const lang = Astro.props.lang as Lang;
+const t = ui[lang];
+const v = t.visit;
+const { address } = site;
+---
+
+<Base lang={lang} page="visit" title={v.title} description={v.description}>
+  <section class="visit-hero theme-ink">
+    <div class="wrap visit-hero__grid">
+      <div>
+        <h1 class="visit-hero__title">
+          <span class="script">{v.script}</span>
+          <span class="display display--xl">{v.heading}</span>
+        </h1>
+        <p class="lead">{v.lead}</p>
+        <div class="btn-row visit-hero__actions">
+          <a class="btn btn--primary" href={site.links.directions} rel="noopener">
+            <Icon name="pin" size={18} />
+            {t.actions.directions}
+          </a>
+          <a class="btn btn--ghost" href={`tel:${site.phone.e164}`}>
+            <Icon name="phone" size={18} />
+            {site.phone.display}
+          </a>
+        </div>
+
+        <div class="hours-block">
+          <h2 class="display display--md">{t.hours.title}</h2>
+          <OpenStatus class="hours-block__status" />
+          <HoursTable lang={lang} />
+          <p class="hours-block__note">{t.hours.note}</p>
+        </div>
+      </div>
+
+      <StreetMap lang={lang} class="visit-hero__map" />
+    </div>
+  </section>
+
+  <div class="theme-ink rule-band"><PinRule /></div>
+
+  <section class="section theme-cream dome-top">
+    <div class="wrap info-grid">
+      <article class="info">
+        <Icon name="pin" size={30} />
+        <h2 class="display display--md">{v.address}</h2>
+        <address>
+          {loc(address.street, lang)}<br />
+          {loc(address.area, lang)} {address.postcode}<br />
+          {loc(address.city, lang)}, {loc(address.country, lang)}
+        </address>
+        <a class="text-link" href={site.links.maps} rel="noopener">
+          {v.openMaps}
+          <Icon name="arrow" size={18} />
+        </a>
+      </article>
+
+      <article class="info">
+        <Icon name="phone" size={30} />
+        <h2 class="display display--md">{v.contact}</h2>
+        <p>{v.contactText}</p>
+        <p class="info__links">
+          <a href={`tel:${site.phone.e164}`}>{site.phone.display}</a>
+          <a href={`mailto:${site.email}`}>{site.email}</a>
+        </p>
+      </article>
+
+      <article class="info">
+        <Icon name="bag" size={30} />
+        <h2 class="display display--md">{v.delivery}</h2>
+        <p>{v.deliveryText}</p>
+        <a class="text-link" href={loc(site.links.wolt, lang)} rel="noopener">
+          {t.actions.order}
+          <Icon name="arrow" size={18} />
+        </a>
+      </article>
+
+      <article class="info">
+        <Icon name="instagram" size={30} />
+        <h2 class="display display--md">{v.follow}</h2>
+        <p class="info__links">
+          <a href={site.links.instagram} rel="noopener">Instagram: @dough_pastries</a>
+          <a href={site.links.facebook} rel="noopener">Facebook: doughpastries</a>
+        </p>
+      </article>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .visit-hero {
+    padding-block: clamp(2rem, 6vw, 4rem) clamp(1.5rem, 4vw, 3rem);
+    background: var(--bg);
+    color: var(--fg);
+  }
+  .visit-hero__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: stretch;
+  }
+  .visit-hero__title {
+    display: grid;
+    margin-bottom: 0.75rem;
+    font-weight: 400;
+  }
+  .visit-hero__title .script {
+    margin-bottom: -0.15em;
+    color: var(--butter);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+  }
+  .visit-hero__actions {
+    margin-top: 1.5rem;
+  }
+  .hours-block {
+    margin-top: 2.5rem;
+  }
+  .hours-block h2 {
+    margin-bottom: 0.4rem;
+    color: var(--butter);
+  }
+  .hours-block :global(.hours-block__status) {
+    margin-bottom: 0.75rem;
+  }
+  .hours-block__note {
+    margin-top: 0.75rem;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  @media (min-width: 900px) {
+    .visit-hero__grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+      gap: 4rem;
+    }
+    .visit-hero__grid :global(.visit-hero__map) {
+      min-height: 620px;
+    }
+  }
+
+  .rule-band {
+    padding-bottom: calc(var(--dome) + 1rem);
+    background: var(--ink);
+  }
+
+  .info-grid {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+  }
+  @media (min-width: 640px) {
+    .info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 1000px) {
+    .info-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .info :global(.icon) {
+    color: var(--caramel);
+  }
+  .info .text-link :global(.icon) {
+    color: inherit;
+  }
+  .info address {
+    font-style: normal;
+  }
+  .info__links {
+    display: grid;
+    gap: 0.25rem;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+  .info__links a {
+    color: var(--caramel);
+    text-underline-offset: 3px;
+  }
+  .info .text-link {
+    margin-top: auto;
+    padding-top: 0.4rem;
+  }
+</style>

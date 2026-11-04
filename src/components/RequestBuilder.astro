@@ -1,0 +1,646 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import data from '../data/occasions.json';
+import site from '../data/site.json';
+import { loc, type Lang } from '../lib/i18n';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const o = ui[lang].occasions;
+const options = [...data.occasions, data.other];
+const defaultFlavour = data.cakeFlavours[0];
+const defaultSize = data.cakeSizes[1];
+
+const clientText = {
+  pieces: o.previewPieces,
+  across: o.previewAcross,
+  tall: o.previewTall,
+  people: o.previewPeople,
+  peopleBlank: o.previewPeopleBlank,
+  summary: o.summary,
+};
+---
+
+<noscript>
+  <style is:inline>
+    .builder {
+      display: none;
+    }
+  </style>
+  <p class="builder-noscript">{o.noscript.replace('{phone}', site.phone.display)}</p>
+</noscript>
+
+<form class="builder" novalidate data-builder data-text={JSON.stringify(clientText)} data-timezone={site.timezone}>
+  <fieldset class="step builder__occasion">
+    <legend class="step__title">{o.step1}</legend>
+    <div class="options options--occasion">
+      {
+        options.map((option, index) => (
+          <label class="option">
+            <input class="visually-hidden" type="radio" name="occasion" value={option.id} data-mode={option.mode} checked={index === 0} />
+            <span>{loc(option.label, lang)}</span>
+          </label>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <aside class="paddle preview" data-preview="cake">
+    <div class="stage" aria-hidden="true">
+      <div class="cake-view" data-view="cake">
+        <div class="cake" data-cake style={`--sponge:${defaultFlavour.sponge};--filling:${defaultFlavour.filling};--top:${defaultFlavour.top};--d:${defaultSize.diameter};--h:${defaultSize.height}`}>
+          <div class="cake__candles"><i></i><i></i><i></i></div>
+          <div class="cake__icing"></div>
+          <div class="cake__body"><i></i><b></b><i></i><b></b><i></i></div>
+          <span class="cake__tall" data-preview-tall>{o.previewTall.replace('{n}', String(defaultSize.height))}</span>
+        </div>
+        <div class="plate"></div>
+        <span class="plate__across" data-preview-across>{o.previewAcross.replace('{n}', String(defaultSize.diameter))}</span>
+      </div>
+      <div class="tray-view" data-view="tray" hidden>
+        <div class="tray" data-tray></div>
+      </div>
+      <div class="logo-view" data-view="logo" hidden>
+        <Logo label="" />
+      </div>
+    </div>
+    <div aria-live="polite">
+      <p class="preview__title display display--md" data-preview-title>{loc(defaultFlavour.name, lang)}</p>
+      <p class="preview__detail" data-preview-detail>{o.previewPieces.replace('{n}', String(defaultSize.pieces))}</p>
+    </div>
+    <p class="preview__price">{o.previewPrice.replace('{phone}', '96 663 158')}</p>
+  </aside>
+
+  <fieldset class="step" data-for-mode="cake">
+    <legend class="step__title">{o.stepFlavour}</legend>
+    <div class="options options--flavours">
+      {
+        data.cakeFlavours.map((flavour, index) => (
+          <label class="option option--swatch">
+            <input class="visually-hidden" type="radio" name="flavour" value={flavour.id} checked={index === 0} data-sponge={flavour.sponge} data-filling={flavour.filling} data-top={flavour.top} />
+            <span class="swatch" style={`background:linear-gradient(${flavour.top} 34%,${flavour.filling} 34% 50%,${flavour.sponge} 50%)`}></span>
+            <span data-label>{loc(flavour.name, lang)}</span>
+          </label>
+        ))
+      }
+    </div>
+    <p class="field-error" id="error-flavour" data-error="flavour" hidden>{o.errors.flavour}</p>
+
+    <h3 class="step__subtitle" id="size-heading">{o.stepSize}</h3>
+    <div class="options options--sizes" role="radiogroup" aria-labelledby="size-heading">
+      {
+        data.cakeSizes.map((size) => (
+          <label class="option option--size">
+            <input class="visually-hidden" type="radio" name="size" value={size.id} checked={size.id === defaultSize.id} data-d={size.diameter} data-h={size.height} data-pieces={size.pieces} />
+            <strong data-label>{o.previewPieces.replace('{n}', String(size.pieces))}</strong>
+            <span>{size.diameter} cm ⌀ · {size.height} cm ↑</span>
+          </label>
+        ))
+      }
+    </div>
+    <p class="field-error" id="error-size" data-error="size" hidden>{o.errors.size}</p>
+  </fieldset>
+
+  <fieldset class="step" data-for-mode="sweets" hidden>
+    <legend class="step__title">{o.stepSweets}</legend>
+    <p class="step__hint">{o.stepSweetsHint}</p>
+    <div class="options options--flavours">
+      {
+        data.eventFlavours.map((flavour) => (
+          <label class="option option--swatch">
+            <input class="visually-hidden" type="checkbox" name="sweets" value={flavour.id} data-colour={flavour.colour} />
+            <span class="swatch swatch--round" style={`background:${flavour.colour}`}></span>
+            <span data-label>{loc(flavour.name, lang)}</span>
+          </label>
+        ))
+      }
+    </div>
+    <p class="field-error" id="error-sweets" data-error="sweets" hidden>{o.errors.sweets}</p>
+  </fieldset>
+
+  <fieldset class="step" data-for-mode="sweets people" hidden>
+    <legend class="step__title">{o.people}</legend>
+    <div class="field field--short">
+      <label class="visually-hidden" for="request-people">{o.people}</label>
+      <input id="request-people" type="number" name="people" min="1" max="2000" inputmode="numeric" placeholder="40" required />
+      <p class="field-error" id="error-people" data-error="people" hidden>{o.errors.people}</p>
+    </div>
+  </fieldset>
+
+  <fieldset class="step">
+    <legend class="step__title">{o.step3}</legend>
+    <div class="fields">
+      <div class="field">
+        <label for="request-date">{o.date}</label>
+        <input id="request-date" type="date" name="date" required />
+        <p class="field-error" id="error-date" data-error="date" hidden>{o.errors.date}</p>
+      </div>
+      <div class="field">
+        <label for="request-location">{o.location}</label>
+        <select id="request-location" name="location">
+          {data.locations.map((location) => <option value={location.id}>{loc(location.name, lang)}</option>)}
+          <option value="collect">{o.collect}</option>
+        </select>
+      </div>
+      <div class="field fields__full" data-address-field>
+        <label for="request-address">{o.address}</label>
+        <input id="request-address" type="text" name="address" autocomplete="street-address" required />
+        <p class="field-error" id="error-address" data-error="address" hidden>{o.errors.address}</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset class="step">
+    <legend class="step__title">{o.step4}</legend>
+    <div class="fields">
+      <div class="field">
+        <label for="request-first-name">{o.firstName}</label>
+        <input id="request-first-name" type="text" name="firstName" autocomplete="given-name" required />
+        <p class="field-error" id="error-firstName" data-error="firstName" hidden>{o.errors.firstName}</p>
+      </div>
+      <div class="field">
+        <label for="request-last-name">{o.lastName}</label>
+        <input id="request-last-name" type="text" name="lastName" autocomplete="family-name" required />
+        <p class="field-error" id="error-lastName" data-error="lastName" hidden>{o.errors.lastName}</p>
+      </div>
+      <div class="field fields__full">
+        <label for="request-phone">{o.phone}</label>
+        <input id="request-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" required />
+        <p class="field-error" id="error-phone" data-error="phone" hidden>{o.errors.phone}</p>
+      </div>
+      <div class="field fields__full">
+        <label for="request-message">{o.message}</label>
+        <textarea id="request-message" name="message" rows="3" placeholder={o.messagePlaceholder}></textarea>
+      </div>
+    </div>
+  </fieldset>
+
+  <div class="builder__submit">
+    <button class="btn btn--primary btn--dark" type="submit" disabled>
+      {o.submit}
+      <Icon name="arrow" size={18} />
+    </button>
+  </div>
+</form>
+
+<div class="result" data-result tabindex="-1" hidden>
+  <p class="result__demo">{o.resultDemo}</p>
+  <h3 class="display display--md">{o.resultTitle}</h3>
+  <dl class="result__list" data-result-list></dl>
+  <p class="result__live">{o.resultLive}</p>
+  <button class="btn btn--ghost" type="button" data-result-again>{o.resultAgain}</button>
+</div>
+
+<style>
+  .builder-noscript {
+    padding: 1rem 1.25rem;
+    border-radius: 14px;
+    background: var(--ink);
+    color: #fff;
+    font-weight: 600;
+  }
+
+  .builder {
+    counter-reset: step;
+    display: grid;
+    gap: 2.25rem;
+    align-items: start;
+  }
+  @media (min-width: 900px) {
+    .builder {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      column-gap: clamp(2.5rem, 5vw, 4.5rem);
+    }
+    .builder > * {
+      grid-column: 2;
+    }
+    .preview {
+      grid-column: 1 !important;
+      grid-row: 1 / span 12;
+    }
+  }
+  @media (min-width: 900px) and (min-height: 760px) {
+    .preview {
+      position: sticky;
+      top: calc(var(--header-h) + 1.25rem);
+    }
+  }
+
+  /* Steps */
+  .step {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    counter-increment: step;
+  }
+  .step__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.9rem;
+    padding: 0;
+    color: var(--ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .step__title::before {
+    content: counter(step);
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--butter);
+    font-size: 0.72em;
+  }
+  .step__subtitle {
+    margin: 1.5rem 0 0.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3vw, 2rem);
+    font-weight: 800;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .step__hint {
+    margin: -0.4rem 0 0.8rem;
+    color: var(--muted);
+  }
+
+  /* Choice buttons */
+  .options {
+    display: grid;
+    gap: 0.5rem;
+  }
+  .options--occasion {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .options--flavours {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
+  }
+  .options--sizes {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    border: 1.5px solid var(--line);
+    border-radius: 14px;
+    background: #fff;
+    color: var(--ink);
+    font-weight: 600;
+    line-height: 1.25;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  }
+  .option:hover {
+    border-color: var(--chocolate);
+  }
+  .option:has(input:checked) {
+    border-color: var(--ink);
+    background: var(--ink);
+    color: var(--butter);
+  }
+  .option:has(input:focus-visible) {
+    outline: 3px solid var(--pink);
+    outline-offset: 2px;
+  }
+  .option--size {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.1rem;
+  }
+  .option--size span {
+    font-size: 0.86rem;
+  }
+  .swatch {
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+    border: 1.5px solid rgb(0 0 0 / 0.2);
+    border-radius: 6px;
+  }
+  .swatch--round {
+    border-radius: 50%;
+  }
+  .option:has(input:checked) .swatch {
+    border-color: var(--butter);
+  }
+
+  /* Text fields */
+  .fields {
+    display: grid;
+    gap: 0.9rem;
+  }
+  @media (min-width: 560px) {
+    .fields {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .fields__full {
+      grid-column: 1 / -1;
+    }
+  }
+  .field {
+    display: grid;
+    gap: 0.3rem;
+    font-weight: 700;
+  }
+  .field--short {
+    max-width: 11rem;
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    padding: 0.7rem 0.85rem;
+    border: 1.5px solid var(--line);
+    border-radius: 12px;
+    background: #fff;
+    color: var(--ink);
+    color-scheme: light;
+    font-weight: 500;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    border-color: var(--ink);
+    outline: 3px solid var(--butter-deep);
+    outline-offset: 0;
+  }
+  .field textarea {
+    resize: vertical;
+  }
+  .field-error {
+    margin-top: 0.3rem;
+    color: #a3123f;
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .btn--dark {
+    background: var(--ink);
+    color: var(--butter);
+  }
+  .btn--dark:hover {
+    background: var(--chocolate);
+  }
+
+  /* Preview panel */
+  .preview {
+    --paddle-colour: var(--chocolate);
+    --unit: 10px;
+    color: #fff;
+    text-align: center;
+  }
+  @media (min-width: 900px) {
+    .preview {
+      --unit: 13px;
+    }
+  }
+  .stage {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    min-height: 290px;
+    margin-bottom: 1rem;
+  }
+  @media (min-width: 900px) {
+    .stage {
+      min-height: 340px;
+    }
+  }
+  .cake-view {
+    display: grid;
+    justify-items: center;
+  }
+  .cake {
+    position: relative;
+    width: calc(var(--d) * var(--unit));
+    height: calc(var(--h) * var(--unit));
+    transition: width 0.45s cubic-bezier(0.3, 1.2, 0.5, 1), height 0.45s cubic-bezier(0.3, 1.2, 0.5, 1);
+  }
+  .cake__body {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border-radius: 12px 12px 6px 6px;
+  }
+  .cake__body i {
+    flex: 2;
+    background: var(--sponge);
+    transition: background 0.3s ease;
+  }
+  .cake__body b {
+    flex: 0.55;
+    background: var(--filling);
+    transition: background 0.3s ease;
+  }
+  .cake__icing {
+    position: absolute;
+    z-index: 1;
+    inset: -7px -4px auto;
+    height: 20px;
+    border-radius: 12px 12px 3px 3px;
+    background: var(--top);
+    transition: background 0.3s ease;
+  }
+  .cake__icing::after {
+    content: '';
+    position: absolute;
+    inset: calc(100% - 1px) 0 auto;
+    height: 20px;
+    background: var(--top);
+    transition: background 0.3s ease;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'%3E%3Cpath d='M0 0H60V5C60 11 54 11 54 5C54 2 50 2 50 7V13C50 19 42 19 42 13V5C42 2 38 2 38 5C38 9 32 9 32 5C32 2 28 2 28 5V9C28 15 20 15 20 9V4C20 2 16 2 16 5C16 8 10 8 10 4C10 2 6 2 6 5C6 7 0 7 0 5Z'/%3E%3C/svg%3E") repeat-x top / 60px 20px;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='20' viewBox='0 0 60 20'%3E%3Cpath d='M0 0H60V5C60 11 54 11 54 5C54 2 50 2 50 7V13C50 19 42 19 42 13V5C42 2 38 2 38 5C38 9 32 9 32 5C32 2 28 2 28 5V9C28 15 20 15 20 9V4C20 2 16 2 16 5C16 8 10 8 10 4C10 2 6 2 6 5C6 7 0 7 0 5Z'/%3E%3C/svg%3E") repeat-x top / 60px 20px;
+  }
+  .cake__candles {
+    position: absolute;
+    z-index: 0;
+    left: 50%;
+    bottom: calc(100% + 6px);
+    display: flex;
+    gap: 1.1rem;
+    translate: -50% 0;
+  }
+  .cake__candles i {
+    position: relative;
+    display: block;
+    width: 8px;
+    height: 34px;
+    border-radius: 3px 3px 0 0;
+    background: repeating-linear-gradient(160deg, var(--butter) 0 6px, #fff 6px 12px);
+  }
+  .cake__candles i:nth-child(2) {
+    background: repeating-linear-gradient(160deg, var(--pink) 0 6px, #fff 6px 12px);
+  }
+  .cake__candles i:nth-child(3) {
+    background: repeating-linear-gradient(160deg, var(--pistachio) 0 6px, #fff 6px 12px);
+  }
+  .cake__candles i::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 2px);
+    width: 10px;
+    height: 16px;
+    border-radius: 50% 50% 50% 50% / 62% 62% 38% 38%;
+    background: linear-gradient(#fff3b0, var(--orange));
+    translate: -50% 0;
+    transform-origin: bottom;
+    animation: flame 0.9s ease-in-out infinite alternate;
+  }
+  .cake__candles i:nth-child(2)::after {
+    animation-delay: 0.2s;
+  }
+  .cake__candles i:nth-child(3)::after {
+    animation-delay: 0.45s;
+  }
+  @keyframes flame {
+    to {
+      transform: scale(0.82, 1.14) rotate(4deg);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cake__candles i::after {
+      animation: none;
+    }
+  }
+  .cake__tall {
+    position: absolute;
+    left: calc(100% + 10px);
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 6px;
+    border-right: 2px solid var(--butter);
+    color: var(--butter);
+    font-size: 0.82rem;
+    font-weight: 700;
+    white-space: nowrap;
+    writing-mode: vertical-rl;
+    rotate: 180deg;
+  }
+  .plate {
+    width: calc(100% + 34px);
+    height: 12px;
+    margin-top: 2px;
+    border-radius: 3px 3px 14px 14px;
+    background: var(--butter);
+  }
+  .plate__across {
+    margin-top: 0.4rem;
+    color: var(--butter);
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+  .tray-view {
+    width: 100%;
+  }
+  .tray {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(26px, 1fr));
+    gap: 6px;
+    min-height: 200px;
+    align-content: start;
+    padding: 1rem;
+    border: 3px solid var(--butter);
+    border-radius: 18px;
+  }
+  .tray :global(span) {
+    aspect-ratio: 1;
+    border: 2px solid rgb(255 217 133 / 0.5);
+    border-radius: 50%;
+    background: var(--c, transparent);
+    animation: pop 0.3s cubic-bezier(0.3, 1.5, 0.5, 1);
+  }
+  @keyframes pop {
+    from {
+      scale: 0;
+    }
+  }
+  .logo-view {
+    height: 190px;
+    align-self: center;
+  }
+  .preview__title {
+    margin-bottom: 0.25rem;
+    color: var(--pistachio);
+    text-wrap: balance;
+  }
+  .preview__detail {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .preview__price {
+    margin: 0.5rem auto 0.5rem;
+    max-width: 30ch;
+    color: rgb(255 255 255 / 0.82);
+    font-size: 0.92rem;
+  }
+
+  /* Result */
+  .result {
+    max-width: 44rem;
+    margin-inline: auto;
+    padding: clamp(1.25rem, 4vw, 2.5rem);
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: #fff;
+    --fg: #fff;
+    --bg: var(--ink);
+  }
+  .result:focus {
+    outline: 0;
+  }
+  .result__demo {
+    width: fit-content;
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: 999px;
+    background: var(--pink);
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .result h3 {
+    margin-bottom: 1.25rem;
+    color: var(--butter);
+  }
+  .result__list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.45rem 1.25rem;
+    margin: 0 0 1.25rem;
+  }
+  .result__list :global(dt) {
+    color: var(--butter);
+    font-weight: 700;
+  }
+  .result__list :global(dd) {
+    margin: 0;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+  }
+  .result__live {
+    margin-bottom: 1.25rem;
+    color: rgb(255 255 255 / 0.74);
+  }
+</style>
+
+<script src="../scripts/builder.ts"></script>
