@@ -30,7 +30,8 @@ const hours = site.hours as Record<string, { open: string; close: string } | nul
 <style>
   .hours {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-variant-numeric: tabular-nums;
   }
   th,
@@ -55,5 +56,6 @@ const hours = site.hours as Record<string, { open: string; close: string } | nul
   }
   tr[aria-current='date'] td {
     border-radius: 0 10px 10px 0;
+    box-shadow: -2px 0 0 var(--accent);
   }
 </style>

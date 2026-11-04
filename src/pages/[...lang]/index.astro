@@ -51,7 +51,7 @@ const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lan
             <Icon name="arrow" size={18} />
           </a>
           <a class="btn btn--ghost" href={loc(site.links.wolt, lang)} rel="noopener">
-            <span class="hero__score">{site.woltScore}</span>
+            <span class="hero__score"><span aria-hidden="true">★ {site.woltScore}</span><span class="visually-hidden">{site.woltScore} {h.woltScore}.</span></span>
             {t.actions.order}
           </a>
         </div>
