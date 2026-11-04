@@ -23,7 +23,6 @@ const LABELS = {
   'Λεωφόρος Στροβόλου': { en: 'Strovolou Avenue', el: 'Λεωφόρος Στροβόλου' },
   'Λεωφόρος Αρχιεπισκόπου Κυπριανού': { en: 'Archbishop Kyprianou Avenue', el: 'Λεωφ. Αρχ. Κυπριανού' },
   'Μακεδονίτισσης': { en: 'Makedonitissis', el: 'Μακεδονίτισσης' },
-  'Ελαιώνων': { en: 'Elaionon', el: 'Ελαιώνων' },
 };
 
 const { lat: lat0, lng: lng0 } = site.geo;

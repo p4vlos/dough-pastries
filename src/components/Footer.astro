@@ -1,0 +1,134 @@
+---
+import Icon from './Icon.astro';
+import Logo from './Logo.astro';
+import site from '../data/site.json';
+import { loc, pageUrl, type Lang } from '../lib/i18n';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const { address } = site;
+---
+
+<footer class="site-footer">
+  <div class="wrap site-footer__grid">
+    <a class="site-footer__logo" href={pageUrl('home', lang)}>
+      <Logo tagline label={site.name} />
+    </a>
+
+    <div>
+      <h2 class="site-footer__title">{t.footer.explore}</h2>
+      <ul>
+        <li><a href={pageUrl('menu', lang)}>{t.nav.menu}</a></li>
+        <li><a href={pageUrl('occasions', lang)}>{t.nav.occasions}</a></li>
+        <li><a href={pageUrl('visit', lang)}>{t.nav.visit}</a></li>
+        <li><a href={loc(site.links.wolt, lang)} rel="noopener">{t.actions.order}</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">{t.footer.visit}</h2>
+      <address>
+        {loc(address.street, lang)}<br />
+        {loc(address.area, lang)} {address.postcode}<br />
+        {loc(address.city, lang)}, {loc(address.country, lang)}
+      </address>
+      <p><a href={`tel:${site.phone.e164}`}>{site.phone.display}</a></p>
+    </div>
+
+    <div>
+      <h2 class="site-footer__title">{t.footer.follow}</h2>
+      <p class="site-footer__social">
+        <a href={site.links.instagram} rel="noopener" aria-label="Instagram"><Icon name="instagram" size={26} /></a>
+        <a href={site.links.facebook} rel="noopener" aria-label="Facebook"><Icon name="facebook" size={26} /></a>
+      </p>
+      <p class="site-footer__tagline" lang="en">{site.tagline}</p>
+    </div>
+  </div>
+
+  <div class="wrap site-footer__legal">
+    <p>
+      © {new Date().getFullYear()} {site.name}.
+      {t.footer.demo} <a href={site.links.official} rel="noopener">doughpastries.cy</a>.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: clamp(3rem, 7vw, 5rem) 2rem;
+    background: var(--ink);
+    color: rgb(255 255 255 / 0.8);
+    border-top: 1px solid rgb(255 217 133 / 0.18);
+  }
+  .site-footer__grid {
+    display: grid;
+    gap: 2.5rem 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .site-footer__logo {
+    grid-column: 1 / -1;
+    display: block;
+    width: fit-content;
+    height: 118px;
+  }
+  .site-footer__title {
+    margin-bottom: 0.75rem;
+    color: var(--butter);
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+  .site-footer ul {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .site-footer address {
+    margin-bottom: 0.5rem;
+    font-style: normal;
+  }
+  .site-footer a {
+    color: #fff;
+    text-underline-offset: 3px;
+    text-decoration-color: rgb(255 217 133 / 0.5);
+  }
+  .site-footer a:hover {
+    color: var(--butter);
+  }
+  .site-footer__social {
+    display: flex;
+    gap: 0.9rem;
+    margin-bottom: 0.75rem;
+  }
+  .site-footer__tagline {
+    font-family: var(--font-script);
+    font-size: 1.1rem;
+    color: var(--butter);
+  }
+  .site-footer__legal {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    padding-top: 1.25rem;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    font-size: 0.86rem;
+    color: rgb(255 255 255 / 0.65);
+  }
+
+  @media (min-width: 900px) {
+    .site-footer__grid {
+      grid-template-columns: 1.4fr 1fr 1fr 1fr;
+    }
+    .site-footer__logo {
+      grid-column: auto;
+      height: 150px;
+    }
+  }
+</style>

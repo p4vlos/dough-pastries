@@ -1,0 +1,59 @@
+---
+import site from '../data/site.json';
+import type { Lang } from '../lib/i18n';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang];
+const week = [1, 2, 3, 4, 5, 6, 0];
+const hours = site.hours as Record<string, { open: string; close: string } | null>;
+---
+
+<table class="hours">
+  <caption class="visually-hidden">{t.hours.title}</caption>
+  <tbody>
+    {
+      week.map((day) => (
+        <tr data-hours-day={day}>
+          <th scope="row">{t.days[day]}</th>
+          <td>{hours[day] ? `${hours[day]!.open} – ${hours[day]!.close}` : t.hours.closed}</td>
+        </tr>
+      ))
+    }
+  </tbody>
+</table>
+
+<style>
+  .hours {
+    width: 100%;
+    border-collapse: collapse;
+    font-variant-numeric: tabular-nums;
+  }
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--line);
+    font-weight: 500;
+    text-align: left;
+  }
+  td {
+    text-align: right;
+    white-space: nowrap;
+  }
+  tr[aria-current='date'] th,
+  tr[aria-current='date'] td {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+  tr[aria-current='date'] th {
+    border-radius: 10px 0 0 10px;
+  }
+  tr[aria-current='date'] td {
+    border-radius: 0 10px 10px 0;
+  }
+</style>

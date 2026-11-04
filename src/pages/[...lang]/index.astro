@@ -1,0 +1,595 @@
+---
+import { Image } from 'astro:assets';
+import HeroArt from '../../components/HeroArt.astro';
+import HoursTable from '../../components/HoursTable.astro';
+import Icon from '../../components/Icon.astro';
+import OpenStatus from '../../components/OpenStatus.astro';
+import PinRule from '../../components/PinRule.astro';
+import StreetMap from '../../components/StreetMap.astro';
+import occasionData from '../../data/occasions.json';
+import site from '../../data/site.json';
+import Base from '../../layouts/Base.astro';
+import { languagePaths, loc, money, pageUrl, type Lang } from '../../lib/i18n';
+import { cutout, photo } from '../../lib/images';
+import { categoryById, itemById } from '../../lib/menu';
+import { ui } from '../../lib/ui';
+
+export const getStaticPaths = languagePaths;
+
+const lang = Astro.props.lang as Lang;
+const t = ui[lang];
+const h = t.home;
+
+const services = [
+  { key: 'coffee', image: 'iced-latte', href: pageUrl('menu', lang, '#hot-coffees'), colour: 'var(--chocolate)', heading: 'var(--pistachio)' },
+  { key: 'counter', image: 'flatlay', href: pageUrl('menu', lang, '#cookies'), colour: 'var(--caramel)', heading: 'var(--butter)' },
+  { key: 'occasions', image: 'orange-pie', href: pageUrl('occasions', lang), colour: 'var(--ink)', heading: 'var(--pink)' },
+] as const;
+
+const cookies = categoryById('cookies').items;
+const bento = ['scoopable-cookie-dough', 'freddo-cappuccino', 'iced-latte', 'marble-cake-loaf', 'blt'].map(itemById);
+const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lang)} ${site.address.postcode}, ${loc(site.address.city, lang)}`;
+---
+
+<Base lang={lang} page="home" title={h.title} description={h.description}>
+  <section class="hero theme-ink">
+    <div class="wrap hero__grid">
+      <div class="hero__head">
+        <p class="eyebrow">{h.heroScript}</p>
+        <h1 class="display hero__title" lang="en">
+          <span>Life is</span>
+          <span>what you</span>
+          <span><em>bake</em> it!</span>
+        </h1>
+      </div>
+      <div class="hero__art"><HeroArt lang={lang} /></div>
+      <div class="hero__body">
+        <p class="lead">{h.heroLead}</p>
+        <div class="btn-row hero__actions">
+          <a class="btn btn--primary" href={pageUrl('menu', lang)}>
+            {h.seeMenu}
+            <Icon name="arrow" size={18} />
+          </a>
+          <a class="btn btn--ghost" href={loc(site.links.wolt, lang)} rel="noopener">
+            <span class="hero__score">{site.woltScore}</span>
+            {t.actions.order}
+          </a>
+        </div>
+        <OpenStatus class="hero__status" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-cream dome-top services">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{h.servicesEyebrow}</p>
+        <h2 class="display display--lg">{h.servicesTitle}</h2>
+      </div>
+      <div class="services__grid">
+        {
+          services.map(({ key, image, href, colour, heading }) => {
+            const copy = h.services[key];
+            return (
+              <a class="paddle service reveal" href={href} style={`--paddle-colour:${colour}`}>
+                <div class="arch service__photo">
+                  <Image src={photo(image)} alt="" widths={[360, 560, 760]} sizes="(min-width: 900px) 30vw, 90vw" format="webp" loading="lazy" />
+                </div>
+                <h3 class="display display--md" style={`color:${heading}`}>{copy.title}</h3>
+                <p>{copy.text}</p>
+                <span class="service__link">
+                  {copy.link}
+                  <Icon name="arrow" size={18} />
+                </span>
+              </a>
+            );
+          })
+        }
+      </div>
+      <p class="services__delivery">{h.delivery}</p>
+    </div>
+  </section>
+
+  <div class="theme-ink rule-band"><PinRule /></div>
+
+  <section class="section theme-ink cookies" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{h.cookiesEyebrow}</p>
+        <h2 class="display display--lg">{h.cookiesTitle}</h2>
+      </div>
+      <ul class="cookie-wall">
+        {
+          cookies.map((item, index) => (
+            <li class="cookie reveal" style={`--shift:${[0, 22, -6, 16, -12][index % 5]}px`}>
+              <a href={pageUrl('menu', lang, '#cookies')}>
+                <div data-roll>
+                  <Image class="roll" src={cutout(item.id)!} alt="" widths={[200, 320, 440]} sizes="(min-width: 900px) 220px, 42vw" format="webp" loading="lazy" />
+                </div>
+                <span class="cookie__name">
+                  {item.popular && <span class="cookie__dot" aria-hidden="true"></span>}
+                  {loc(item.name, lang)}
+                </span>
+                <span class="cookie__price">{money(item.price, lang)}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="cookies__foot">
+        <p><span class="cookie__dot" aria-hidden="true"></span> {h.cookiesLegend}</p>
+        <a class="btn btn--primary" href={pageUrl('menu', lang, '#cookies')}>
+          {h.cookiesLink}
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-paper dome-top">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">{h.bentoEyebrow}</p>
+        <h2 class="display display--lg">{h.bentoTitle}</h2>
+      </div>
+      <ul class="bento">
+        {
+          bento.map((item) => (
+            <li class="bento__tile reveal">
+              <a href={pageUrl('menu', lang, `#${item.id}`)}>
+                <Image src={photo(item.id)} alt={loc(item.name, lang)} widths={[420, 640, 900]} sizes="(min-width: 900px) 40vw, 90vw" format="webp" loading="lazy" />
+                <span class="bento__label">
+                  {loc(item.name, lang)}
+                  <b>{money(item.price, lang)}</b>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section theme-chocolate dome-top cakes">
+    <div class="wrap cakes__grid">
+      <div class="cakes__copy">
+        <h2 class="cakes__title">
+          <span class="script">{h.cakesScript}</span>
+          <span class="display display--xl">{h.cakesTitle}</span>
+        </h2>
+        <h3 class="display display--md cakes__sub">{h.flavours}</h3>
+        <ul class="flavour-list">
+          {occasionData.cakeFlavours.map((flavour) => <li>{loc(flavour.name, lang)}</li>)}
+        </ul>
+        <p class="cakes__note">{h.cakesNote.replace('{phone}', '96 663 158')}</p>
+        <p class="cakes__also">{h.cakesAlso}</p>
+        <a class="btn btn--orange" href={pageUrl('occasions', lang, '#builder')}>
+          {h.buildCake}
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+      <div class="paddle sizes reveal">
+        <h3 class="display display--lg sizes__title">{h.sizes}</h3>
+        <ul class="sizes__list">
+          {
+            occasionData.cakeSizes.map((size) => (
+              <li>
+                <strong>{h.upTo.replace('{n}', String(size.pieces))}</strong>
+                <span>
+                  {size.diameter} cm ⌀ <i aria-hidden="true">|</i> {size.height} cm ↑
+                </span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section theme-ink dome-top visit">
+    <div class="wrap visit__grid">
+      <StreetMap lang={lang} class="visit__map" />
+      <div>
+        <p class="eyebrow">{h.visitEyebrow}</p>
+        <h2 class="display display--lg">{h.visitTitle}</h2>
+        <p class="visit__address">{address}</p>
+        <OpenStatus class="visit__status" />
+        <HoursTable lang={lang} />
+        <div class="btn-row visit__actions">
+          <a class="btn btn--primary" href={site.links.directions} rel="noopener">
+            <Icon name="pin" size={18} />
+            {t.actions.directions}
+          </a>
+          <a class="btn btn--ghost" href={`tel:${site.phone.e164}`}>
+            <Icon name="phone" size={18} />
+            {site.phone.display}
+          </a>
+        </div>
+        <a class="text-link" href={pageUrl('visit', lang)}>
+          {h.visitLink}
+          <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* Hero */
+  .hero {
+    padding-block: clamp(2rem, 5vw, 4rem) calc(var(--dome) + clamp(2.5rem, 7vw, 5rem));
+    background: var(--bg);
+    color: var(--fg);
+    overflow: clip;
+  }
+  .hero__grid {
+    display: grid;
+    gap: 1.25rem clamp(1.5rem, 4vw, 3rem);
+  }
+  .hero__title {
+    display: grid;
+    font-size: clamp(4.2rem, 19vw, 10.5rem);
+    line-height: 0.86;
+  }
+  .hero__title span {
+    white-space: nowrap;
+  }
+  .hero__title em {
+    color: var(--butter);
+    font-style: normal;
+  }
+  .hero__actions {
+    margin-top: 1.75rem;
+  }
+  .hero__score {
+    padding: 0.1em 0.5em;
+    border-radius: 999px;
+    background: var(--pistachio);
+    color: var(--ink);
+    font-size: 0.85em;
+  }
+  .hero__status {
+    margin-top: 1.25rem !important;
+  }
+  .hero__art {
+    margin-inline: -0.5rem;
+  }
+  @media (min-width: 900px) {
+    .hero__grid {
+      grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+      grid-template-areas: 'head art' 'body art';
+      grid-template-rows: auto 1fr;
+    }
+    .hero__head {
+      grid-area: head;
+    }
+    .hero__body {
+      grid-area: body;
+    }
+    .hero__art {
+      grid-area: art;
+      align-self: center;
+      margin-inline: 0;
+    }
+  }
+
+  /* Services */
+  .services__grid {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .service {
+    color: #fff;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+  }
+  .service:hover {
+    transform: translateY(-6px);
+  }
+  .service__photo {
+    aspect-ratio: 1 / 0.92;
+    margin-bottom: 1.25rem;
+  }
+  .service__photo :global(img) {
+    transition: scale 0.5s ease;
+  }
+  .service:hover .service__photo :global(img) {
+    scale: 1.05;
+  }
+  .service h3 {
+    margin-bottom: 0.6rem;
+  }
+  .service p {
+    color: rgb(255 255 255 / 0.88);
+  }
+  .service__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    margin-top: 1rem;
+    padding-bottom: 0.75rem;
+    font-weight: 700;
+  }
+  .services__delivery {
+    margin-top: clamp(0.5rem, 2vw, 1.5rem);
+    color: var(--muted);
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+  }
+  @media (min-width: 900px) {
+    .services__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 2rem;
+    }
+  }
+
+  /* Rolling pin band */
+  .rule-band {
+    position: relative;
+    background: var(--ink);
+    padding-block: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 3vw, 2rem);
+  }
+
+  /* Cookies */
+  .cookie-wall {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(1.25rem, 3vw, 2.25rem) clamp(0.75rem, 2vw, 1.75rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .cookie {
+    width: calc(50% - 0.5rem);
+    max-width: 230px;
+    text-align: center;
+  }
+  .cookie a {
+    display: grid;
+    gap: 0.25rem;
+    justify-items: center;
+    text-decoration: none;
+  }
+  .cookie :global(img) {
+    width: 100%;
+    filter: drop-shadow(0 12px 16px rgb(255 217 133 / 0.13));
+    transition: scale 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+  }
+  .cookie a:hover :global(img) {
+    scale: 1.09;
+  }
+  .cookie__name {
+    margin-top: 0.4rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .cookie__price {
+    color: var(--butter);
+    font-weight: 700;
+  }
+  .cookie__dot {
+    display: inline-block;
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.2rem;
+    border-radius: 50%;
+    background: var(--pink);
+    vertical-align: 0.05em;
+  }
+  .cookies__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    padding-bottom: var(--dome);
+    color: var(--muted);
+  }
+  @media (min-width: 640px) {
+    .cookie {
+      width: calc(33.33% - 1rem);
+    }
+  }
+  @media (min-width: 900px) {
+    .cookie {
+      width: calc(20% - 1.5rem);
+      translate: 0 var(--shift, 0);
+    }
+  }
+
+  /* Most ordered */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(0.75rem, 1.6vw, 1.25rem);
+    margin: 0;
+    padding: 0 0 var(--dome);
+    list-style: none;
+  }
+  .bento__tile {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius);
+    background: var(--cream);
+  }
+  .bento__tile:first-child {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 10;
+  }
+  .bento__tile a {
+    display: block;
+    height: 100%;
+    text-decoration: none;
+  }
+  .bento__tile :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: scale 0.5s ease;
+  }
+  .bento__tile a:hover :global(img) {
+    scale: 1.05;
+  }
+  .bento__label {
+    position: absolute;
+    left: 0.6rem;
+    bottom: 0.6rem;
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.1rem 0.5rem;
+    max-width: calc(100% - 1.2rem);
+    padding: 0.35rem 0.8rem;
+    border-radius: 14px;
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.25;
+  }
+  .bento__label b {
+    color: var(--butter);
+  }
+  @media (min-width: 900px) {
+    .bento {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+    .bento__tile:first-child {
+      grid-column: span 2;
+      grid-row: span 2;
+      aspect-ratio: auto;
+    }
+  }
+
+  /* Cakes: the printed cake menu, redrawn for the web */
+  .cakes {
+    padding-bottom: calc(var(--dome) + clamp(3.5rem, 9vw, 6rem));
+  }
+  .cakes__grid {
+    display: grid;
+    gap: 2.5rem;
+  }
+  .cakes__title {
+    display: grid;
+    margin-bottom: 1.5rem;
+    color: #fff;
+    font-weight: 400;
+  }
+  .cakes__title .script {
+    font-size: clamp(3rem, 7vw, 5rem);
+    margin-bottom: -0.15em;
+  }
+  .cakes__sub {
+    margin-bottom: 0.75rem;
+    color: var(--pistachio);
+  }
+  .flavour-list {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0 0 1.75rem;
+    padding: 0;
+    list-style: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+  .flavour-list li {
+    position: relative;
+    padding-left: 1.1rem;
+  }
+  .flavour-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 0.42rem;
+    height: 0.42rem;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+  .cakes__note {
+    max-width: 44ch;
+    font-weight: 600;
+  }
+  .cakes__also {
+    max-width: 44ch;
+    margin: 0.4rem 0 1.5rem;
+    color: var(--muted);
+  }
+  .sizes {
+    --paddle-colour: var(--caramel);
+    align-self: start;
+  }
+  .sizes__title {
+    margin-bottom: 1rem;
+    color: var(--pink);
+    text-align: center;
+  }
+  .sizes__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .sizes__list li {
+    display: grid;
+    gap: 0.1rem;
+    padding-block: 1.05rem;
+    border-bottom: 3px solid var(--orange);
+  }
+  .sizes__list li:last-child {
+    border-bottom: 0;
+  }
+  .sizes__list strong {
+    font-size: 1.3rem;
+  }
+  .sizes__list i {
+    color: var(--pink);
+    font-style: normal;
+    font-weight: 700;
+  }
+  @media (min-width: 900px) {
+    .cakes__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 4rem;
+    }
+    .flavour-list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 1.5rem;
+    }
+    .sizes {
+      margin-top: calc(var(--dome) * -0.2);
+    }
+  }
+
+  /* Visit */
+  .visit__grid {
+    display: grid;
+    gap: 2.5rem;
+    align-items: center;
+  }
+  .visit__address {
+    margin-top: 0.9rem;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .visit__status {
+    margin-block: 0.75rem 1rem !important;
+  }
+  .visit__actions {
+    margin-block: 1.5rem 1.25rem;
+  }
+  @media (min-width: 900px) {
+    .visit__grid {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+      gap: 4rem;
+    }
+    .visit__grid :global(.visit__map) {
+      height: 100%;
+      min-height: 560px;
+    }
+  }
+</style>

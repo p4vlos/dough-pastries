@@ -1,0 +1,177 @@
+---
+import { Image, getImage } from 'astro:assets';
+import type { Lang } from '../lib/i18n';
+import { cutout, photo } from '../lib/images';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const flatlay = await getImage({ src: photo('flatlay'), width: 1200, format: 'webp' });
+
+const HANDLE =
+  'M256 412C241 425 231 430 214 430C200 430 190 428 178 424C155 418 135 410 112 402C104 399.5 98 399 94 399C68 399 50 420 50 445C50 470 68 491 94 491C100 491 104 490 112 487C135 479 155 471 178 465C190 462 205 460 216 460C232 460 241 465 256 478';
+
+const floaters = [
+  { id: 'kinder-cookie', className: 'floater--a' },
+  { id: 'lemon-meringue-cookie', className: 'floater--b' },
+  { id: 'red-velvet-cookie', className: 'floater--c' },
+  { id: 'oreo-white-chocolate-cookie', className: 'floater--d' },
+];
+---
+
+<div class="hero-art" aria-hidden="true">
+  <svg class="hero-art__svg" viewBox="-160 30 1320 800">
+    <defs>
+      <clipPath id="hero-arch"><path d="M170 640V400A330 330 0 0 1 830 400V640Z"></path></clipPath>
+    </defs>
+    <image
+      href={flatlay.src}
+      x="100"
+      y="70"
+      width="800"
+      height="570"
+      preserveAspectRatio="xMidYMid slice"
+      clip-path="url(#hero-arch)"
+    ></image>
+    <g class="hero-art__line" fill="none" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+      <path pathLength="1" d="M170 640V400A330 330 0 0 1 830 400V640"></path>
+      <rect class="hero-art__pin" pathLength="1" x="60" y="640" width="880" height="170" rx="28"></rect>
+      <path pathLength="1" d={HANDLE} transform="translate(-196 280)"></path>
+      <path pathLength="1" d={HANDLE} transform="translate(-23 280) matrix(-1 0 0 1 1219 0)"></path>
+    </g>
+    <text class="hero-art__words" x="500" y="729" text-anchor="middle" dominant-baseline="central">{ui[lang].home.pinWords}</text>
+  </svg>
+
+  {
+    floaters.map(({ id, className }) => (
+      <div class:list={['floater', className]} data-roll>
+        <Image class="roll" src={cutout(id)!} alt="" widths={[220, 360]} sizes="(min-width: 900px) 200px, 24vw" format="webp" loading="eager" />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .hero-art {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1320 / 800;
+  }
+  .hero-art__svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+  .hero-art__line {
+    stroke: var(--butter);
+  }
+  .hero-art__pin {
+    fill: var(--ink);
+  }
+  .hero-art__words {
+    fill: var(--butter);
+    font-family: var(--font-display);
+    font-size: 92px;
+    font-weight: 800;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+  }
+
+  .floater {
+    position: absolute;
+    width: 19%;
+    filter: drop-shadow(0 14px 18px rgb(0 0 0 / 0.65));
+  }
+  .floater :global(img) {
+    width: 100%;
+  }
+  .floater--a {
+    top: 4%;
+    right: 12%;
+    width: 22%;
+  }
+  .floater--b {
+    top: 30%;
+    left: 8%;
+    width: 19%;
+  }
+  .floater--c {
+    top: 46%;
+    right: 3%;
+    width: 18%;
+  }
+  .floater--d {
+    top: 1%;
+    left: 21%;
+    width: 15%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-art__line > * {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: hero-draw 1.7s cubic-bezier(0.6, 0, 0.2, 1) 0.1s forwards;
+    }
+    .hero-art__line > :nth-child(3),
+    .hero-art__line > :nth-child(4) {
+      animation-delay: 0.9s;
+      animation-duration: 0.9s;
+    }
+    .hero-art__svg image {
+      opacity: 0;
+      animation: hero-fade 0.9s ease 0.8s forwards;
+    }
+    .hero-art__words {
+      opacity: 0;
+      animation: hero-fade 0.7s ease 1.3s forwards;
+    }
+    .floater {
+      opacity: 0;
+      animation:
+        floater-in 0.8s cubic-bezier(0.2, 0.9, 0.3, 1.2) 1.2s forwards,
+        floater-bob 7s ease-in-out 2s infinite alternate;
+    }
+    .floater--b {
+      animation-delay: 1.35s, 2.3s;
+    }
+    .floater--c {
+      animation-delay: 1.5s, 2.6s;
+    }
+    .floater--d {
+      animation-delay: 1.65s, 2.9s;
+    }
+  }
+
+  @keyframes hero-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes hero-fade {
+    to {
+      opacity: 1;
+    }
+  }
+  @keyframes floater-in {
+    from {
+      opacity: 0;
+      scale: 0.5;
+    }
+    to {
+      opacity: 1;
+      scale: 1;
+    }
+  }
+  @keyframes floater-bob {
+    from {
+      translate: 0 -5px;
+    }
+    to {
+      translate: 0 7px;
+    }
+  }
+</style>

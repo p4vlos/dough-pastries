@@ -1,0 +1,62 @@
+---
+import Icon from './Icon.astro';
+import site from '../data/site.json';
+import { loc, type Lang } from '../lib/i18n';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const t = ui[lang].actions;
+---
+
+<nav class="action-bar" aria-label={t.label}>
+  <a href={`tel:${site.phone.e164}`}>
+    <Icon name="phone" />
+    {t.call}
+  </a>
+  <a href={site.links.directions} rel="noopener">
+    <Icon name="pin" />
+    {t.directions}
+  </a>
+  <a class="action-bar__main" href={loc(site.links.wolt, lang)} rel="noopener">
+    <Icon name="bag" />
+    {t.orderShort}
+  </a>
+</nav>
+
+<style>
+  .action-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 45;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    padding-bottom: env(safe-area-inset-bottom);
+    background: var(--ink);
+    border-top: 1px solid rgb(255 217 133 / 0.25);
+  }
+  .action-bar a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.15rem;
+    min-height: var(--action-bar-h);
+    color: #fff;
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  .action-bar__main {
+    background: var(--butter);
+    color: var(--ink) !important;
+  }
+  @media (min-width: 900px) {
+    .action-bar {
+      display: none;
+    }
+  }
+</style>

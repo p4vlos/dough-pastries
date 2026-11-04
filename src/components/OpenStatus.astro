@@ -1,0 +1,51 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<p class:list={['open-status', className]} data-open-status hidden>
+  <span class="open-status__dot" aria-hidden="true"></span>
+  <strong data-open-status-label></strong>
+  <span data-open-status-detail></span>
+</p>
+
+<style>
+  .open-status {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.25rem 0.5rem;
+    margin: 0;
+    font-size: 0.98rem;
+  }
+  .open-status[hidden] {
+    display: none;
+  }
+  [data-open-status-detail]:not(:empty)::before {
+    content: '· ';
+  }
+  .open-status__dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background: var(--pink);
+  }
+  .open-status[data-state='open'] .open-status__dot {
+    background: var(--pistachio);
+    box-shadow: 0 0 0 0 rgb(169 215 110 / 0.6);
+    animation: open-pulse 2.4s ease-out infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .open-status[data-state='open'] .open-status__dot {
+      animation: none;
+    }
+  }
+  @keyframes open-pulse {
+    to {
+      box-shadow: 0 0 0 0.6rem rgb(169 215 110 / 0);
+    }
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+import map from '../data/map.json';
+import type { Lang } from '../lib/i18n';
+import { ui } from '../lib/ui';
+
+interface Props {
+  lang: Lang;
+  class?: string;
+}
+
+const { lang, class: className } = Astro.props;
+const t = ui[lang];
+const centre = { x: map.width / 2, y: map.height / 2 };
+---
+
+<figure class:list={['street-map', className]}>
+  <svg viewBox={`0 0 ${map.width} ${map.height}`} preserveAspectRatio="xMidYMid slice" role="img" aria-label={t.mapLabel}>
+    <defs>
+      {map.labels.map((label) => <path id={`${lang}-${label.id}`} d={label.d} />)}
+    </defs>
+
+    <path class="street-map__buildings" d={map.roads.buildings}></path>
+    <g class="street-map__roads">
+      <path class="service" d={map.roads.service}></path>
+      <path class="minor" d={map.roads.minor}></path>
+      <path class="mid" d={map.roads.mid}></path>
+      <path class="major" d={map.roads.major}></path>
+    </g>
+
+    {
+      map.labels.map((label) => (
+        <text class:list={['street-map__label', { 'street-map__label--main': label.main }]}>
+          <textPath href={`#${lang}-${label.id}`} startOffset={label.main ? '30%' : '50%'} text-anchor="middle">
+            {label[lang]}
+          </textPath>
+        </text>
+      ))
+    }
+
+    <g transform={`translate(${centre.x} ${centre.y})`}>
+      <circle class="street-map__pulse" r="18"></circle>
+      <path class="street-map__marker" d="M0 0C-20-28-34-44-34-66A34 34 0 0 1 34-66C34-44 20-28 0 0Z"></path>
+      <path class="street-map__dome" d="M-18-58A18 20 0 0 1 18-58M-23-57H23"></path>
+      <text class="street-map__shop" x="44" y="-58">{t.mapShop}</text>
+    </g>
+  </svg>
+  <figcaption>{t.mapCredit}</figcaption>
+</figure>
+
+<style>
+  .street-map {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgb(255 217 133 / 0.3);
+    border-radius: clamp(90px, 20vw, 220px) clamp(90px, 20vw, 220px) 16px 16px;
+    background: var(--ink);
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+  }
+  .street-map__buildings {
+    fill: var(--butter);
+    fill-opacity: 0.1;
+  }
+  .street-map__roads path {
+    fill: none;
+    stroke: var(--butter);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .service {
+    stroke-opacity: 0.16;
+    stroke-width: 1.5;
+  }
+  .minor {
+    stroke-opacity: 0.32;
+    stroke-width: 2.5;
+  }
+  .mid {
+    stroke-opacity: 0.55;
+    stroke-width: 4;
+  }
+  .major {
+    stroke-opacity: 0.8;
+    stroke-width: 6;
+  }
+  .street-map__label {
+    fill: rgb(255 255 255 / 0.82);
+    font-family: var(--font-body);
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    paint-order: stroke;
+    stroke: var(--ink);
+    stroke-width: 5px;
+    dominant-baseline: central;
+  }
+  .street-map__label--main {
+    fill: var(--butter);
+    font-size: 24px;
+    font-weight: 700;
+  }
+  .street-map__marker {
+    fill: var(--butter);
+    stroke: var(--ink);
+    stroke-width: 3;
+  }
+  .street-map__dome {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .street-map__shop {
+    fill: var(--butter);
+    font-family: var(--font-display);
+    font-size: 46px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    paint-order: stroke;
+    stroke: var(--ink);
+    stroke-width: 8px;
+  }
+  .street-map__pulse {
+    fill: var(--butter);
+    fill-opacity: 0.35;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .street-map__pulse {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: map-pulse 2.6s ease-out infinite;
+    }
+  }
+  @keyframes map-pulse {
+    from {
+      transform: scale(0.5);
+      fill-opacity: 0.55;
+    }
+    to {
+      transform: scale(3.4);
+      fill-opacity: 0;
+    }
+  }
+  figcaption {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.5rem;
+    color: rgb(255 255 255 / 0.65);
+    font-size: 0.72rem;
+  }
+</style>
