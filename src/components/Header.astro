@@ -15,7 +15,7 @@ const other: Lang = lang === 'en' ? 'el' : 'en';
 const links: { id: PageId; label: string; short: string }[] = [
   { id: 'menu', label: t.nav.menu, short: t.nav.menu },
   { id: 'occasions', label: t.nav.occasions, short: t.nav.occasionsShort },
-  { id: 'visit', label: t.nav.visit, short: t.nav.visit },
+  { id: 'visit', label: t.nav.visit, short: t.nav.visitShort },
 ];
 ---
 
@@ -66,7 +66,29 @@ const links: { id: PageId; label: string; short: string }[] = [
   .site-header__logo {
     display: block;
     height: calc(var(--header-h) - 16px);
+    aspect-ratio: 1160 / 716;
     border-radius: 8px;
+  }
+  /* The narrowest phones: the Greek labels only fit if everything tightens a little. */
+  @media (max-width: 380px) {
+    .site-header__inner {
+      width: calc(100% - 1.5rem);
+      gap: 0.5rem;
+    }
+    .site-header__logo {
+      height: 34px;
+    }
+    .site-nav {
+      gap: 0.5rem;
+    }
+    .site-nav a {
+      font-size: clamp(0.8rem, 3.7vw, 0.98rem);
+    }
+    .lang-switch {
+      width: 2rem;
+      height: 2rem;
+      font-size: 0.75rem;
+    }
   }
   .site-nav {
     display: flex;

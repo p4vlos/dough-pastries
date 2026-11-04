@@ -2,7 +2,7 @@ import type { Lang } from './i18n';
 
 const en = {
   skip: 'Skip to content',
-  nav: { label: 'Main', menu: 'Menu', occasions: 'Cakes & Occasions', occasionsShort: 'Cakes', visit: 'Visit' },
+  nav: { label: 'Main', menu: 'Menu', occasions: 'Cakes & Occasions', occasionsShort: 'Cakes', visit: 'Visit', visitShort: 'Visit' },
   actions: { label: 'Quick actions', order: 'Order on Wolt', orderShort: 'Wolt', call: 'Call', directions: 'Directions' },
   home: {
     title: 'Dough Pastries | Handmade cakes, cookies and coffee in Strovolos, Nicosia',
@@ -171,7 +171,7 @@ type Strings = typeof en;
 
 const el: Strings = {
   skip: 'Μετάβαση στο περιεχόμενο',
-  nav: { label: 'Κύριο μενού', menu: 'Μενού', occasions: 'Τούρτες & Εκδηλώσεις', occasionsShort: 'Τούρτες', visit: 'Βρείτε μας' },
+  nav: { label: 'Κύριο μενού', menu: 'Μενού', occasions: 'Τούρτες & Εκδηλώσεις', occasionsShort: 'Τούρτες', visit: 'Βρείτε μας', visitShort: 'Επαφή' },
   actions: { label: 'Γρήγορες ενέργειες', order: 'Παραγγελία στο Wolt', orderShort: 'Wolt', call: 'Κλήση', directions: 'Διαδρομή' },
   home: {
     title: 'Dough Pastries | Χειροποίητες τούρτες, cookies και καφές στον Στρόβολο',
