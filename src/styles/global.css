@@ -11,6 +11,7 @@
   --caramel: #91371c;
   --orange: #d8811c;
   --pink: #f574a2;
+  --pink-light: #ff9fc2;
   --pistachio: #a9d76e;
 
   --font-body: 'Quicksand Variable', 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -19,11 +20,13 @@
 
   --header-h: 64px;
   --action-bar-h: 60px;
+  --tools-h: 118px;
   --dome: clamp(44px, 9vw, 130px);
   --radius: 20px;
 
   color-scheme: dark light;
   scroll-padding-top: calc(var(--header-h) + 16px);
+  scroll-padding-bottom: calc(var(--action-bar-h) + env(safe-area-inset-bottom) + 16px);
 }
 
 @view-transition {
@@ -56,6 +59,19 @@ body {
 @media (min-width: 900px) {
   :root {
     --header-h: 76px;
+    --tools-h: 72px;
+    scroll-padding-bottom: 0;
+  }
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* A phone on its side: the action bar joins the page instead of covering it. */
+@media (max-height: 500px) {
+  :root {
+    scroll-padding-top: 16px;
+    scroll-padding-bottom: 0;
   }
   body {
     padding-bottom: 0;

@@ -65,3 +65,13 @@ test('today is the Cyprus date, even when it is still yesterday in UTC', () => {
   assert.equal(todayInZone(new Date('2026-07-07T21:30:00Z'), 'Asia/Nicosia'), '2026-07-08');
   assert.equal(todayInZone(new Date('2026-07-07T20:30:00Z'), 'Asia/Nicosia'), '2026-07-07');
 });
+
+test('people must be a whole number from 1 to 2000', () => {
+  const request = { ...contact, mode: 'people' };
+  for (const bad of ['1.5', '99999', '1e3', '2001', 'abc']) {
+    assert.deepEqual(validateRequest({ ...request, people: bad }, TODAY), ['people'], bad);
+  }
+  for (const good of ['1', '40', '2000']) {
+    assert.deepEqual(validateRequest({ ...request, people: good }, TODAY), [], good);
+  }
+});

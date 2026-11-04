@@ -1,4 +1,5 @@
 import menu from '../data/menu.json';
+import { searchText } from './search.mjs';
 
 export type MenuItem = (typeof menu.categories)[number]['items'][number] & {
   desc?: { en: string; el?: string };
@@ -9,6 +10,7 @@ export type MenuItem = (typeof menu.categories)[number]['items'][number] & {
 
 export type MenuCategory = Omit<(typeof menu.categories)[number], 'items'> & {
   note?: { en: string; el?: string };
+  keywords?: string;
   items: MenuItem[];
 };
 
@@ -20,3 +22,6 @@ export const categoryById = (id: string) => categories.find((category) => catego
 
 const items = categories.flatMap((category) => category.items);
 export const itemById = (id: string) => items.find((item) => item.id === id)!;
+
+export const searchTextFor = (item: MenuItem) =>
+  searchText(item, categories.find((category) => category.items.includes(item))!);

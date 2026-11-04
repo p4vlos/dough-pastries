@@ -31,7 +31,8 @@ jobs:
           path: dist
 
   deploy:
-    if: github.event_name != 'pull_request'
+    # GitHub Pages needs a public repo on the free plan, so private builds stop after the checks.
+    if: github.event_name != 'pull_request' && !github.event.repository.private
     needs: build
     runs-on: ubuntu-latest
     permissions:

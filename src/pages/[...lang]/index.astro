@@ -248,8 +248,8 @@ const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lan
     color: var(--ink);
     font-size: 0.85em;
   }
-  .hero__status {
-    margin-top: 1.25rem !important;
+  .hero__body :global(.hero__status) {
+    margin-top: 1.25rem;
   }
   .hero__art {
     margin-inline: -0.5rem;
@@ -434,6 +434,9 @@ const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lan
   .bento__tile a:hover :global(img) {
     scale: 1.05;
   }
+  .bento__tile a:focus-visible {
+    outline-offset: -6px;
+  }
   .bento__label {
     position: absolute;
     left: 0.6rem;
@@ -526,7 +529,7 @@ const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lan
   }
   .sizes__title {
     margin-bottom: 1rem;
-    color: var(--pink);
+    color: var(--pink-light);
     text-align: center;
   }
   .sizes__list {
@@ -576,8 +579,8 @@ const address = `${loc(site.address.street, lang)}, ${loc(site.address.area, lan
     font-size: 1.15rem;
     font-weight: 600;
   }
-  .visit__status {
-    margin-block: 0.75rem 1rem !important;
+  .visit__grid :global(.visit__status) {
+    margin-block: 0.75rem 1rem;
   }
   .visit__actions {
     margin-block: 1.5rem 1.25rem;

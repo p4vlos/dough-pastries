@@ -7,6 +7,10 @@ export function todayInZone(date, timeZone) {
 
 export const isValidPhone = (phone) => (phone ?? '').replace(/\D/g, '').length >= 8;
 
+const MAX_PEOPLE = 2000;
+export const isValidPeople = (people) =>
+  /^\d+$/.test(String(people ?? '').trim()) && Number(people) >= 1 && Number(people) <= MAX_PEOPLE;
+
 const filled = (value) => (value ?? '').trim() !== '';
 
 /** Returns the keys of everything that still needs fixing, in the order the fields appear. */
@@ -19,7 +23,7 @@ export function validateRequest(values, today) {
     if (!values.size) errors.push('size');
   }
   if (mode === 'sweets' && !values.sweets?.length) errors.push('sweets');
-  if ((mode === 'sweets' || mode === 'people') && !(Number(values.people) >= 1)) errors.push('people');
+  if ((mode === 'sweets' || mode === 'people') && !isValidPeople(values.people)) errors.push('people');
 
   if (!values.date || values.date < today) errors.push('date');
   if (values.location !== 'collect' && !filled(values.address)) errors.push('address');

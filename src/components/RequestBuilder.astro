@@ -26,7 +26,14 @@ const clientText = {
 };
 ---
 
-<noscript><p class="builder-noscript">{o.noscript.replace('{phone}', site.phone.display)}</p></noscript>
+<noscript>
+  <style is:inline>
+    .builder {
+      display: none;
+    }
+  </style>
+  <p class="builder-noscript">{o.noscript.replace('{phone}', site.phone.display)}</p>
+</noscript>
 
 <form class="builder" novalidate data-builder data-text={JSON.stringify(clientText)} data-timezone={site.timezone}>
   <fieldset class="step builder__occasion">
@@ -43,8 +50,8 @@ const clientText = {
     </div>
   </fieldset>
 
-  <aside class="paddle preview" aria-hidden="true" data-preview="cake">
-    <div class="stage">
+  <aside class="paddle preview" data-preview="cake">
+    <div class="stage" aria-hidden="true">
       <div class="cake-view" data-view="cake">
         <div class="cake" data-cake style={`--sponge:${defaultFlavour.sponge};--filling:${defaultFlavour.filling};--top:${defaultFlavour.top};--d:${defaultSize.diameter};--h:${defaultSize.height}`}>
           <div class="cake__candles"><i></i><i></i><i></i></div>
@@ -62,8 +69,10 @@ const clientText = {
         <Logo label="" />
       </div>
     </div>
-    <p class="preview__title display display--md" data-preview-title>{loc(defaultFlavour.name, lang)}</p>
-    <p class="preview__detail" data-preview-detail>{o.previewPieces.replace('{n}', String(defaultSize.pieces))}</p>
+    <div aria-live="polite">
+      <p class="preview__title display display--md" data-preview-title>{loc(defaultFlavour.name, lang)}</p>
+      <p class="preview__detail" data-preview-detail>{o.previewPieces.replace('{n}', String(defaultSize.pieces))}</p>
+    </div>
     <p class="preview__price">{o.previewPrice.replace('{phone}', '96 663 158')}</p>
   </aside>
 
@@ -80,10 +89,10 @@ const clientText = {
         ))
       }
     </div>
-    <p class="field-error" data-error="flavour" hidden>{o.errors.flavour}</p>
+    <p class="field-error" id="error-flavour" data-error="flavour" hidden>{o.errors.flavour}</p>
 
-    <h3 class="step__subtitle">{o.stepSize}</h3>
-    <div class="options options--sizes">
+    <h3 class="step__subtitle" id="size-heading">{o.stepSize}</h3>
+    <div class="options options--sizes" role="radiogroup" aria-labelledby="size-heading">
       {
         data.cakeSizes.map((size) => (
           <label class="option option--size">
@@ -94,7 +103,7 @@ const clientText = {
         ))
       }
     </div>
-    <p class="field-error" data-error="size" hidden>{o.errors.size}</p>
+    <p class="field-error" id="error-size" data-error="size" hidden>{o.errors.size}</p>
   </fieldset>
 
   <fieldset class="step" data-for-mode="sweets" hidden>
@@ -111,68 +120,68 @@ const clientText = {
         ))
       }
     </div>
-    <p class="field-error" data-error="sweets" hidden>{o.errors.sweets}</p>
+    <p class="field-error" id="error-sweets" data-error="sweets" hidden>{o.errors.sweets}</p>
   </fieldset>
 
   <fieldset class="step" data-for-mode="sweets people" hidden>
     <legend class="step__title">{o.people}</legend>
-    <label class="field field--short">
-      <span class="visually-hidden">{o.people}</span>
-      <input type="number" name="people" min="1" max="2000" inputmode="numeric" placeholder="40" />
-    </label>
-    <p class="field-error" data-error="people" hidden>{o.errors.people}</p>
+    <div class="field field--short">
+      <label class="visually-hidden" for="request-people">{o.people}</label>
+      <input id="request-people" type="number" name="people" min="1" max="2000" inputmode="numeric" placeholder="40" required />
+      <p class="field-error" id="error-people" data-error="people" hidden>{o.errors.people}</p>
+    </div>
   </fieldset>
 
   <fieldset class="step">
     <legend class="step__title">{o.step3}</legend>
     <div class="fields">
-      <label class="field">
-        <span>{o.date}</span>
-        <input type="date" name="date" />
-        <p class="field-error" data-error="date" hidden>{o.errors.date}</p>
-      </label>
-      <label class="field">
-        <span>{o.location}</span>
-        <select name="location">
+      <div class="field">
+        <label for="request-date">{o.date}</label>
+        <input id="request-date" type="date" name="date" required />
+        <p class="field-error" id="error-date" data-error="date" hidden>{o.errors.date}</p>
+      </div>
+      <div class="field">
+        <label for="request-location">{o.location}</label>
+        <select id="request-location" name="location">
           {data.locations.map((location) => <option value={location.id}>{loc(location.name, lang)}</option>)}
           <option value="collect">{o.collect}</option>
         </select>
-      </label>
-      <label class="field fields__full" data-address-field>
-        <span>{o.address}</span>
-        <input type="text" name="address" autocomplete="street-address" />
-        <p class="field-error" data-error="address" hidden>{o.errors.address}</p>
-      </label>
+      </div>
+      <div class="field fields__full" data-address-field>
+        <label for="request-address">{o.address}</label>
+        <input id="request-address" type="text" name="address" autocomplete="street-address" required />
+        <p class="field-error" id="error-address" data-error="address" hidden>{o.errors.address}</p>
+      </div>
     </div>
   </fieldset>
 
   <fieldset class="step">
     <legend class="step__title">{o.step4}</legend>
     <div class="fields">
-      <label class="field">
-        <span>{o.firstName}</span>
-        <input type="text" name="firstName" autocomplete="given-name" />
-        <p class="field-error" data-error="firstName" hidden>{o.errors.firstName}</p>
-      </label>
-      <label class="field">
-        <span>{o.lastName}</span>
-        <input type="text" name="lastName" autocomplete="family-name" />
-        <p class="field-error" data-error="lastName" hidden>{o.errors.lastName}</p>
-      </label>
-      <label class="field fields__full">
-        <span>{o.phone}</span>
-        <input type="tel" name="phone" autocomplete="tel" inputmode="tel" />
-        <p class="field-error" data-error="phone" hidden>{o.errors.phone}</p>
-      </label>
-      <label class="field fields__full">
-        <span>{o.message}</span>
-        <textarea name="message" rows="3" placeholder={o.messagePlaceholder}></textarea>
-      </label>
+      <div class="field">
+        <label for="request-first-name">{o.firstName}</label>
+        <input id="request-first-name" type="text" name="firstName" autocomplete="given-name" required />
+        <p class="field-error" id="error-firstName" data-error="firstName" hidden>{o.errors.firstName}</p>
+      </div>
+      <div class="field">
+        <label for="request-last-name">{o.lastName}</label>
+        <input id="request-last-name" type="text" name="lastName" autocomplete="family-name" required />
+        <p class="field-error" id="error-lastName" data-error="lastName" hidden>{o.errors.lastName}</p>
+      </div>
+      <div class="field fields__full">
+        <label for="request-phone">{o.phone}</label>
+        <input id="request-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" required />
+        <p class="field-error" id="error-phone" data-error="phone" hidden>{o.errors.phone}</p>
+      </div>
+      <div class="field fields__full">
+        <label for="request-message">{o.message}</label>
+        <textarea id="request-message" name="message" rows="3" placeholder={o.messagePlaceholder}></textarea>
+      </div>
     </div>
   </fieldset>
 
   <div class="builder__submit">
-    <button class="btn btn--primary btn--dark" type="submit">
+    <button class="btn btn--primary btn--dark" type="submit" disabled>
       {o.submit}
       <Icon name="arrow" size={18} />
     </button>
@@ -213,6 +222,10 @@ const clientText = {
     .preview {
       grid-column: 1 !important;
       grid-row: 1 / span 12;
+    }
+  }
+  @media (min-width: 900px) and (min-height: 760px) {
+    .preview {
       position: sticky;
       top: calc(var(--header-h) + 1.25rem);
     }

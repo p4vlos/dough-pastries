@@ -1,9 +1,12 @@
-import { matches, normalise } from '../lib/search.mjs';
+import { matches, normalise, sectionToHighlight } from '../lib/search.mjs';
 
 const input = document.querySelector<HTMLInputElement>('[data-menu-search]')!;
 const clear = document.querySelector<HTMLButtonElement>('[data-menu-clear]')!;
 const count = document.querySelector<HTMLElement>('[data-menu-count]')!;
 const empty = document.querySelector<HTMLElement>('[data-menu-empty]')!;
+const hero = document.querySelector<HTMLElement>('[data-menu-hero]')!;
+const header = document.querySelector<HTMLElement>('.site-header')!;
+const blocks = [...document.querySelectorAll<HTMLElement>('[data-menu-block]')];
 const chipBar = document.querySelector<HTMLElement>('[data-menu-chips]')!;
 const chips = [...chipBar.querySelectorAll<HTMLAnchorElement>('a')];
 const sections = [...document.querySelectorAll<HTMLElement>('[data-menu-section]')];
@@ -33,9 +36,10 @@ function applySearch() {
     if (chip) chip.hidden = !visible;
   });
 
-  // The drinks panel is one block, so hide it whole when no drink matches.
-  const drinks = document.querySelector<HTMLElement>('.drinks');
-  if (drinks) drinks.hidden = !drinks.querySelector('[data-menu-item]:not([hidden])');
+  // The drinks section and its two columns have headings and panels of their own, so hide them when empty.
+  blocks.forEach((block) => {
+    block.hidden = !block.querySelector('[data-menu-item]:not([hidden])');
+  });
 
   clear.hidden = query === '';
   empty.hidden = shown > 0;
@@ -47,10 +51,20 @@ function applySearch() {
         : count.dataset.many!.replace('{n}', String(shown));
 }
 
-input.addEventListener('input', applySearch);
+/* Filtering shortens the page, so go back to where the results start or they end up off screen. */
+function showTopOfResults() {
+  const resultsStart = hero.getBoundingClientRect().bottom + scrollY - header.offsetHeight;
+  if (scrollY > resultsStart) scrollTo({ top: resultsStart, behavior: 'instant' });
+}
+
+input.addEventListener('input', () => {
+  applySearch();
+  showTopOfResults();
+});
 clear.addEventListener('click', () => {
   input.value = '';
   applySearch();
+  showTopOfResults();
   input.focus();
 });
 
@@ -72,8 +86,10 @@ const spy = new IntersectionObserver(
       if (isIntersecting) inView.add(target as HTMLElement);
       else inView.delete(target as HTMLElement);
     });
-    const current = sections.find((section) => inView.has(section));
-    if (current) setActiveChip(chipFor(current));
+    const current = sectionToHighlight(
+      [...inView].map((section) => ({ section, top: section.getBoundingClientRect().top })),
+    );
+    setActiveChip(current && chipFor(current.section));
   },
   { rootMargin: '-35% 0px -55% 0px' },
 );

@@ -1,4 +1,4 @@
-import { todayInZone, validateRequest } from '../lib/request.mjs';
+import { isValidPeople, todayInZone, validateRequest } from '../lib/request.mjs';
 
 const form = document.querySelector<HTMLFormElement>('[data-builder]')!;
 const text = JSON.parse(form.dataset.text!);
@@ -14,6 +14,7 @@ const preview = form.querySelector<HTMLElement>('[data-preview]')!;
 const addressField = form.querySelector<HTMLElement>('[data-address-field]')!;
 const dateInput = form.elements.namedItem('date') as HTMLInputElement;
 const locationInput = form.elements.namedItem('location') as HTMLSelectElement;
+const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
 
 const MAX_TRAY_TOKENS = 60;
 const today = () => todayInZone(new Date(), form.dataset.timezone!);
@@ -43,8 +44,8 @@ function renderTray(people: number) {
 }
 
 function peopleText() {
-  const people = Number(value('people'));
-  return people >= 1 ? text.people.replace('{n}', String(people)) : text.peopleBlank;
+  const people = value('people');
+  return isValidPeople(people) ? text.people.replace('{n}', people) : text.peopleBlank;
 }
 
 function updatePreview() {
@@ -83,10 +84,29 @@ function updatePreview() {
   }
 }
 
-function clearErrors() {
-  form.querySelectorAll<HTMLElement>('[data-error]').forEach((error) => {
-    error.hidden = true;
+const controlsFor = (key: string) => [...form.querySelectorAll<HTMLElement>(`[name="${key}"]`)];
+
+function showError(key: string) {
+  const message = form.querySelector<HTMLElement>(`[data-error="${key}"]`)!;
+  message.hidden = false;
+  controlsFor(key).forEach((control) => {
+    control.setAttribute('aria-invalid', 'true');
+    control.setAttribute('aria-describedby', message.id);
   });
+}
+
+function clearError(key: string) {
+  const message = form.querySelector<HTMLElement>(`[data-error="${key}"]`);
+  if (!message) return;
+  message.hidden = true;
+  controlsFor(key).forEach((control) => {
+    control.removeAttribute('aria-invalid');
+    control.removeAttribute('aria-describedby');
+  });
+}
+
+function clearErrors() {
+  form.querySelectorAll<HTMLElement>('[data-error]').forEach((error) => clearError(error.dataset.error!));
 }
 
 function collectValues() {
@@ -145,7 +165,15 @@ function showResult(values: ReturnType<typeof collectValues>) {
   result.scrollIntoView({ block: 'center' });
 }
 
-form.addEventListener('input', updatePreview);
+function showForm() {
+  result.hidden = true;
+  form.hidden = false;
+}
+
+form.addEventListener('input', (event) => {
+  clearError((event.target as HTMLInputElement).name);
+  updatePreview();
+});
 form.addEventListener('change', updatePreview);
 
 form.addEventListener('submit', (event) => {
@@ -157,21 +185,19 @@ form.addEventListener('submit', (event) => {
     showResult(values);
     return;
   }
-  errors.forEach((key) => {
-    form.querySelector<HTMLElement>(`[data-error="${key}"]`)!.hidden = false;
-  });
-  const first = form.querySelector<HTMLElement>(`[data-error="${errors[0]}"]`)!;
-  first.closest('fieldset')?.querySelector<HTMLElement>('input, select, textarea')?.focus({ preventScroll: true });
-  (first.closest('label') ?? first).scrollIntoView({ block: 'center' });
+  errors.forEach(showError);
+  const first = controlsFor(errors[0])[0];
+  first.focus({ preventScroll: true });
+  first.scrollIntoView({ block: 'center' });
 });
 
 result.querySelector('[data-result-again]')!.addEventListener('click', () => {
   form.reset();
   clearErrors();
-  result.hidden = true;
-  form.hidden = false;
+  showForm();
   updatePreview();
   form.scrollIntoView({ block: 'start' });
+  checked('occasion')!.focus({ preventScroll: true });
 });
 
 /* The occasion links above the form pick that occasion, then the page scrolls down to it. */
@@ -179,6 +205,7 @@ document.querySelectorAll<HTMLAnchorElement>('[data-pick-occasion]').forEach((li
   link.addEventListener('click', () => {
     const radio = form.querySelector<HTMLInputElement>(`input[name="occasion"][value="${link.dataset.pickOccasion}"]`);
     if (radio) {
+      showForm();
       radio.checked = true;
       updatePreview();
     }
@@ -187,3 +214,4 @@ document.querySelectorAll<HTMLAnchorElement>('[data-pick-occasion]').forEach((li
 
 dateInput.min = today();
 updatePreview();
+submit.disabled = false;

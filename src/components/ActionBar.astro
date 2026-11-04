@@ -54,6 +54,11 @@ const t = ui[lang].actions;
     background: var(--butter);
     color: var(--ink) !important;
   }
+  @media (max-height: 500px) {
+    .action-bar {
+      position: static;
+    }
+  }
   @media (min-width: 900px) {
     .action-bar {
       display: none;

@@ -19,7 +19,7 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
 ---
 
 <Base lang={lang} page="menu" title={m.title} description={m.description}>
-  <section class="menu-hero theme-ink">
+  <section class="menu-hero theme-ink" data-menu-hero>
     <div class="wrap">
       <h1 class="menu-hero__title">
         <span class="script">{m.script}</span>
@@ -47,9 +47,9 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
 
   <p class="visually-hidden" role="status" data-menu-count data-one={m.countOne} data-many={m.countMany}></p>
 
-  <section class="drinks theme-chocolate">
+  <section class="drinks theme-chocolate" data-menu-block>
     <div class="wrap drinks__grid">
-      <div class="drinks__left">
+      <div class="drinks__left" data-menu-block>
         <h2 class="drinks__title">
           <span class="script">{m.drinksScript}</span>
           <span class="display display--lg">{m.drinksTitle}</span>
@@ -65,7 +65,7 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
           ))
         }
       </div>
-      <div class="paddle drinks__right">
+      <div class="paddle drinks__right" data-menu-block>
         {
           rightDrinks.map((category) => (
             <div class="drink-group" id={category.id} data-menu-section>
@@ -158,6 +158,12 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
     background: var(--bg);
     color: var(--fg);
     border-bottom: 1px solid var(--line);
+  }
+  /* On short screens, such as a phone on its side, sticky bars would leave no room for the menu. */
+  @media (max-height: 500px) {
+    .menu-tools {
+      position: static;
+    }
   }
   .menu-tools__inner {
     display: grid;
@@ -265,7 +271,7 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
     font-size: clamp(2.2rem, 5vw, 3.25rem);
   }
   .drink-group {
-    scroll-margin-top: calc(var(--header-h) + 130px);
+    scroll-margin-top: calc(var(--header-h) + var(--tools-h) + 12px);
   }
   .drink-group + .drink-group {
     margin-top: 2rem;
@@ -275,7 +281,7 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
     color: var(--pistachio);
   }
   .drink-group__title--pink {
-    color: #ff9fc2;
+    color: var(--pink-light);
   }
   .drink-list {
     display: grid;
@@ -304,7 +310,7 @@ const rightDrinks = ['chillers', 'non-coffee', 'add-ons'].map(categoryById);
     padding-block: clamp(2.5rem, 6vw, 4.5rem);
     background: var(--bg);
     color: var(--fg);
-    scroll-margin-top: calc(var(--header-h) + 90px);
+    scroll-margin-top: calc(var(--header-h) + var(--tools-h));
   }
   .food__head {
     display: flex;

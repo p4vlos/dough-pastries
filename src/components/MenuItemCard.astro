@@ -2,7 +2,7 @@
 import { Image } from 'astro:assets';
 import { loc, money, type Lang } from '../lib/i18n';
 import { cutout, photo } from '../lib/images';
-import type { MenuItem } from '../lib/menu';
+import { searchTextFor, type MenuItem } from '../lib/menu';
 import { ui } from '../lib/ui';
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 const { item, lang, dark = false } = Astro.props;
 const name = loc(item.name, lang);
 const desc = item.desc ? loc(item.desc, lang) : '';
-const search = [item.name.en, item.name.el, item.desc?.en, item.desc?.el].filter(Boolean).join(' ');
+const search = searchTextFor(item);
 const cut = dark ? cutout(item.id) : undefined;
 ---
 
@@ -48,7 +48,7 @@ const cut = dark ? cutout(item.id) : undefined;
     border-radius: var(--radius);
     background: #fff;
     color: var(--ink);
-    scroll-margin-top: calc(var(--header-h) + 70px);
+    scroll-margin-top: calc(var(--header-h) + var(--tools-h) + 12px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
   .card:hover {
